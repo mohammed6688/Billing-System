@@ -3,4 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
+    <listener>
+        <listener-class>com.example.customer_care_app.helper.listener</listener-class>
+    </listener>
+    <context-param>
+        <param-name>DB_NAME</param-name>
+        <param-value>billing project</param-value>
+    </context-param>
+    <context-param>
+        <param-name>USER_NAME</param-name>
+        <param-value>postgres</param-value>
+    </context-param>
+    <context-param>
+        <param-name>USER_PASSWORD</param-name>
+        <param-value>1502654</param-value>
+    </context-param>
 </web-app>
