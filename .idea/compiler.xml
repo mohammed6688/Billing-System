@@ -6,11 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="Cdr_Processor" />
         <module name="Customer_Care_App" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Customer_Care_App" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
