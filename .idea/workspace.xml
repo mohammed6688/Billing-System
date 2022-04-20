@@ -3,6 +3,7 @@
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
       <artifact name="Customer_Care_App:war" />
+      <artifact name="Customer_Care_App:war exploded" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
@@ -10,13 +11,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f845be0e-7566-467d-aca6-6bb92f6b69ca" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cdr_Processor/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Cdr_Processor/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cdr_Processor/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Cdr_Processor/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cdr_Processor/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/Cdr_Processor/target/classes/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/classes/com/example/customer_care_app/helper/listener.class" beforeDir="false" afterPath="$PROJECT_DIR$/Customer Care Site/target/classes/com/example/customer_care_app/helper/listener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cdr_Processor/target/classes/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT.war" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/classes/com/example/customer_care_app/HelloServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/classes/com/example/customer_care_app/helper/listener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/classes/com/example/customer_care_app/modules/SiteDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/lib/bcprov-jdk15on-1.68.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/lib/checker-qual-3.5.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/lib/commons-beanutils-1.9.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/lib/commons-collections-3.2.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/lib/commons-collections4-4.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/lib/commons-digester-2.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/lib/commons-logging-1.1.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/lib/ecj-3.21.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/lib/itext-2.1.7.js9.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/lib/jackson-annotations-2.13.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/lib/jackson-core-2.13.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/lib/jackson-databind-2.13.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/lib/jackson-dataformat-xml-2.13.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/lib/jasperreports-6.19.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/lib/jcommon-1.0.23.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/lib/jfreechart-1.0.19.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/lib/postgresql-42.3.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/lib/stax2-api-4.2.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/lib/woodstox-core-6.2.7.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Customer Care Site/target/Customer_Care_App-1.0-SNAPSHOT/index.jsp" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +89,9 @@
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.18261719" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -191,6 +218,7 @@
       <workItem from="1650423503967" duration="6179000" />
       <workItem from="1650486094022" duration="1142000" />
       <workItem from="1650489291007" duration="2228000" />
+      <workItem from="1650493902132" duration="799000" />
     </task>
     <servers />
   </component>
