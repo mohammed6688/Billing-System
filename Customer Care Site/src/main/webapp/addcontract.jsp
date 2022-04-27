@@ -9,11 +9,10 @@
     String mode = request.getParameter("mode");
     if (mode!=null&&mode.equals("adduser")){
         String national_id = request.getParameter("national_id");
-        String name = request.getParameter("name");
-        String age = request.getParameter("age");
-        String address = request.getParameter("address");
+        String rateplane = request.getParameter("rateplane");
+        String msisdn = request.getParameter("msisdn");
         try {
-            SiteDAO.instanceData.addUser(national_id,name,age,address);
+            SiteDAO.instanceData.addContract(national_id,rateplane,msisdn);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -31,7 +30,7 @@
                     <input type="hidden" value="adduser" name="mode"/>
 
                     <div class="col-md-4"><label class="form-label" for="validationCustom03">User National Id</label> <input
-                            name="age" class="form-control" id="validationCustom03" required="">
+                            name="national_id" class="form-control" id="validationCustom03" required="">
                         <div class="valid-feedback">Looks good!</div>
                     </div>
 
@@ -41,7 +40,7 @@
                     </div>
 
                     <div class="col-md-4"><label class="form-label">Rate Plane</label>
-                        <select class="form-select" aria-label="Default select example">
+                        <select name="rateplane" class="form-select" aria-label="Default select example">
                             <option selected="">Choose rate plane</option>
                             <%
                                 List<RatePlane> ratePlanes = null;

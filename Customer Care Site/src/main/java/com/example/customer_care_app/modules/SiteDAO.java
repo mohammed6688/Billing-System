@@ -20,7 +20,6 @@ public class SiteDAO {
     }
 
     public void addUser(String national_id, String name, String age, String address) throws SQLException {
-        System.out.println("here");
         stmt = this.con.prepareStatement("insert into bscs.users(national_id,u_name,age,address) values(?,?,?,?)");
         stmt.setInt(1, Integer.parseInt(national_id));
         stmt.setString(2, name);
@@ -61,5 +60,22 @@ public class SiteDAO {
 
         System.out.println("in get rate plane");
         return ratePlanes;
+    }
+
+    public void addContract(String national_id, String rateplane, String msisdn) throws SQLException {
+        stmt = this.con.prepareStatement("insert into bscs.contract(msisdn,rateplane_id,userid) values(?,?,?)");
+        stmt.setInt(1, Integer.parseInt(msisdn));
+        stmt.setInt(2, Integer.parseInt(rateplane));
+        stmt.setInt(3, Integer.parseInt(national_id));
+
+        stmt.executeUpdate();
+        ResultSet rs = stmt.getGeneratedKeys();
+        System.out.println(rs);
+        if (rs != null) {
+            System.out.println("contract added");
+//            return 1;
+        } else {
+//            return -1;
+        }
     }
 }
