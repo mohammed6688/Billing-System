@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class CDRParser {
-
     public static void parseCDR(String fileName) {
         CSVReader reader = null;
         String ext = "CDRFiles/"+fileName+".csv";

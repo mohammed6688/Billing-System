@@ -17,4 +17,22 @@ public class SiteDAO {
         instanceData = this;
     }
 
+    public void addUser(String national_id, String name, String age, String address) throws SQLException {
+        System.out.println("here");
+        stmt = this.con.prepareStatement("insert into bscs.users(national_id,u_name,age,address) values(?,?,?,?)");
+        stmt.setInt(1, Integer.parseInt(national_id));
+        stmt.setString(2, name);
+        stmt.setInt(3, Integer.parseInt(age));
+        stmt.setString(4, address);
+
+        stmt.executeUpdate();
+        ResultSet rs = stmt.getGeneratedKeys();
+        System.out.println(rs);
+        if (rs != null) {
+            System.out.println("user added");
+//            return 1;
+        } else {
+//            return -1;
+        }
+    }
 }
