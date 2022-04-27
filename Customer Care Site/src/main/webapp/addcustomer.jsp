@@ -27,7 +27,7 @@
                 </div>
                 <form action="addcustomer.jsp" class="row g-3" novalidate="">
                     <input type="hidden" value="adduser" name="mode"/>
-                    <div class="col-md-4"><label class="form-label" for="validationCustom01">National Id</label> <input
+                    <div class="col-md-4"><label class="form-label" for="validationCustom01">User National Id</label> <input
                             name="national_id" class="form-control" id="validationCustom01" required="">
                         <div class="valid-feedback">Looks good!</div>
                     </div>

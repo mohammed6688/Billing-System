@@ -1,6 +1,8 @@
 package com.example.customer_care_app.modules;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SiteDAO {
     public static final String DB_URL = "jdbc:postgresql://localhost:5432/";
@@ -34,5 +36,30 @@ public class SiteDAO {
         } else {
 //            return -1;
         }
+    }
+
+    public List<RatePlane> getRatePlane() throws SQLException {
+        stmt = this.con.prepareStatement("select * from bscs.rateplanes");
+        ResultSet rs = stmt.executeQuery();
+        List<RatePlane> ratePlanes = new ArrayList<>();
+
+        while (rs.next()) {
+            ratePlanes.add(new RatePlane(
+                    rs.getInt("id"),
+                    rs.getString("commercial_name"),
+                    rs.getInt("voice_service"),
+                    rs.getInt("cross_voice_service"),
+                    rs.getInt("data_service"),
+                    rs.getInt("sms_service"),
+                    rs.getInt("roaming_service"),
+                    rs.getInt("additional_minutes_service"),
+                    rs.getInt("additional_sms_service"),
+                    rs.getInt("additional_data_service"),
+                    rs.getInt("additional_roaming_service"),
+                    rs.getInt("fee")));
+        }
+
+        System.out.println("in get rate plane");
+        return ratePlanes;
     }
 }
