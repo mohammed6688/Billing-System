@@ -1,3 +1,8 @@
+<%@ page import="com.example.customer_care_app.modules.SiteDAO" %>
+<%@ page import="com.example.customer_care_app.modules.Users" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="com.example.customer_care_app.modules.RatePlane" %>
 <%@include file="/header.html" %>
 
 
@@ -7,14 +12,22 @@
             <div class="col-12 col-xxl-6">
                 <div class="mb-8">
                     <h2 class="mb-2">Customer Care Dashboard</h2>
-                    <h5 class="text-700 fw-semi-bold">Here’s what’s going on at your business right now</h5>
                 </div>
                 <div class="row align-items-center g-4">
                     <div class="col-12 col-md-auto">
                         <div class="d-flex align-items-center"><img src="assets/img/icons/illustrations/4.png" alt=""
                                                                     height="46" width="46">
                             <div class="ms-3">
-                                <h4 class="mb-0">57 user</h4>
+                                <%
+                                    try {
+                                        List<Users> users =SiteDAO.instanceData.getUsers();
+                                %>
+                                <h4 class="mb-0"><%=users.size()%> users</h4>
+                                <%
+                                    } catch (SQLException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                %>
                                 <p class="text-800 fs--1 mb-0">Active user</p>
                             </div>
                         </div>
@@ -23,8 +36,16 @@
                         <div class="d-flex align-items-center"><img src="assets/img/icons/illustrations/2.png" alt=""
                                                                     height="46" width="46">
                             <div class="ms-3">
-                                <h4 class="mb-0">5 rateplanes</h4>
-                                <p class="text-800 fs--1 mb-0">On hold</p>
+                                <%
+                                    try {
+                                        List<RatePlane> ratePlanes =SiteDAO.instanceData.getRatePlane();
+                                %>
+                                <h4 class="mb-0"><%=ratePlanes.size()%> rateplanes</h4>
+                                <%
+                                    } catch (SQLException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                %>
                             </div>
                         </div>
                     </div>
@@ -32,7 +53,7 @@
                         <div class="d-flex align-items-center"><img src="assets/img/icons/illustrations/3.png" alt=""
                                                                     height="46" width="46">
                             <div class="ms-3">
-                                <h4 class="mb-0">15 products</h4>
+                                <h4 class="mb-0">15 service packages</h4>
                                 <p class="text-800 fs--1 mb-0">Out of stock</p>
                             </div>
                         </div>

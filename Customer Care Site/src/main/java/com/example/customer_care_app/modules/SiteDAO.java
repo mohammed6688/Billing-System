@@ -78,4 +78,20 @@ public class SiteDAO {
 //            return -1;
         }
     }
+
+    public List<Users> getUsers() throws SQLException {
+        stmt = this.con.prepareStatement("select * from bscs.users");
+        ResultSet rs = stmt.executeQuery();
+        List<Users> users = new ArrayList<>();
+
+        while (rs.next()) {
+            users.add(new Users(
+                    rs.getInt("national_id"),
+                    rs.getString("u_name"),
+                    rs.getInt("age"),
+                    rs.getString("address")
+            ));
+        }
+        return users;
+    }
 }
