@@ -1,106 +1,88 @@
 package com.example.customer_care_app.modules;
 
-import java.sql.Date;
 
 public class CDR {
-    private int ID;
-    private String A_party_MSISDN,B_party_MSISDN;
-    private Date startDate;
-    private int StartHour;
-    private int RatePlan_Id;
-    private int ServicePackage_Id;
-    private int Event_Type;
-    private int duration_sec ;
+    private int id;
+    private String source_msisdn,terminated_msisdn;
+    private String timestamp;
+    private int duration;
+    private int rate;
+    private int service_id;
+    private int ratePlan_id;
 
-    //-------------------------------------Constructors-------------------------
 
-    public CDR(int ID, String a_party_MSISDN, String b_party_MSISDN, Date startDate, int startHour, int ratePlan_Id, int servicePackage_Id, int event_Type, int duration_sec) {
-        this.ID = ID;
-        A_party_MSISDN = a_party_MSISDN;
-        B_party_MSISDN = b_party_MSISDN;
-        this.startDate = startDate;
-        StartHour = startHour;
-        RatePlan_Id = ratePlan_Id;
-        ServicePackage_Id = servicePackage_Id;
-        Event_Type = event_Type;
-        this.duration_sec = duration_sec;
+    public CDR(int id, String source_msisdn, String terminated_msisdn, String timestamp, int duration, int rate, int service_id, int ratePlan_id) {
+        this.id = id;
+        this.source_msisdn = source_msisdn;
+        this.terminated_msisdn = terminated_msisdn;
+        this.timestamp = timestamp;
+        this.duration = duration;
+        this.rate = rate;
+        this.service_id = service_id;
+        this.ratePlan_id = ratePlan_id;
     }
 
-    //---------------------------------End of Constructors----------------------
-    //-------------------------------------setters------------------------------
-    public void setID(int ID) {
-        this.ID = ID;
+    public int getId() {
+        return id;
     }
 
-    public void setA_party_MSISDN(String a_party_MSISDN) {
-        A_party_MSISDN = a_party_MSISDN;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setB_party_MSISDN(String b_party_MSISDN) {
-        B_party_MSISDN = b_party_MSISDN;
+    public String getSource_msisdn() {
+        return source_msisdn;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setSource_msisdn(String source_msisdn) {
+        this.source_msisdn = source_msisdn;
     }
 
-    public void setStartHour(int startHour) {
-        StartHour = startHour;
+    public String getTerminated_msisdn() {
+        return terminated_msisdn;
     }
 
-    public void setRatePlan_Id(int ratePlan_Id) {
-        RatePlan_Id = ratePlan_Id;
+    public void setTerminated_msisdn(String terminated_msisdn) {
+        this.terminated_msisdn = terminated_msisdn;
     }
 
-    public void setServicePackage_Id(int servicePackage_Id) {
-        ServicePackage_Id = servicePackage_Id;
+    public String getTimestamp() {
+        return timestamp;
     }
 
-    public void setEvent_Type(int event_Type) {
-        Event_Type = event_Type;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
-    public void setDuration_sec(int duration_sec) {
-        this.duration_sec = duration_sec;
-    }
-    //-----------------------------------End of setters--------------------------------
-
-    //-----------------------------------Getters---------------------------------------
-
-    public int getID() {
-        return ID;
+    public int getDuration() {
+        return duration;
     }
 
-    public String getA_party_MSISDN() {
-        return A_party_MSISDN;
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
-    public String getB_party_MSISDN() {
-        return B_party_MSISDN;
+    public int getRate() {
+        return rate;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public void setRate(int rate) {
+        this.rate = rate;
     }
 
-    public int getStartHour() {
-        return StartHour;
+    public int getService_id() {
+        return service_id;
     }
 
-    public int getRatePlan_Id() {
-        return RatePlan_Id;
+    public void setService_id(int service_id) {
+        this.service_id = service_id;
     }
 
-    public int getServicePackage_Id() {
-        return ServicePackage_Id;
+    public int getRatePlan_id() {
+        return ratePlan_id;
     }
 
-    public int getEvent_Type() {
-        return Event_Type;
+    public void setRatePlan_id(int ratePlan_id) {
+        this.ratePlan_id = ratePlan_id;
     }
-
-    public int getDuration_sec() {
-        return duration_sec;
-    }
-    //------------------------------------End of Getters------------------------------------
 }
