@@ -32,9 +32,10 @@ public class CsvHandler {
 
             // add data to csv
 
-            String[] data1 = {String.valueOf(cdr.getID()), cdr.getA_party_MSISDN(), cdr.getB_party_MSISDN(),
-                    String.valueOf(cdr.getStartDate()), String.valueOf(cdr.getStartHour()), String.valueOf(cdr.getRatePlan_Id()), String.valueOf(cdr.getServicePackage_Id()),
-                    String.valueOf(cdr.getEvent_Type()), String.valueOf(cdr.getDuration_sec())};
+            String[] data1 = {String.valueOf(cdr.getId()), cdr.getSource_msisdn(), cdr.getTerminated_msisdn(),
+                    String.valueOf(cdr.getTimestamp()), String.valueOf(cdr.getDuration()), String.valueOf(cdr.getRate()),
+                    String.valueOf(cdr.getService_id()),
+                    String.valueOf(cdr.getRatePlan_id())};
             writer.writeNext(data1);
 
 
@@ -50,7 +51,7 @@ public class CsvHandler {
 
         String str = "2015-03-31";
         Date date = Date.valueOf(str);
-        CDR cdr = new CDR(1, "01147964655", "01147964655", date, 20, 1, 2, 3, 600);
+        CDR cdr = new CDR(1, "01147964655", "01147964655", "20", 50, 0, 1, 1);
         CsvHandler cv = new CsvHandler();
         cv.writeDataLineByLine(cdr);
     }
