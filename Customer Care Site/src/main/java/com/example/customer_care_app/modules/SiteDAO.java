@@ -94,4 +94,20 @@ public class SiteDAO {
         }
         return users;
     }
+
+    public int addServicePackage(String type, String units) throws SQLException {
+        stmt = this.con.prepareStatement("insert into bscs.service_package(service_type,units) values(?,?)");
+        stmt.setString(1, type);
+        stmt.setInt(2, Integer.parseInt(units));
+
+        stmt.executeUpdate();
+        ResultSet rs = stmt.getGeneratedKeys();
+        System.out.println(rs);
+        if (rs != null) {
+            System.out.println("service package added");
+            return 1;
+        } else {
+            return -1;
+        }
+    }
 }

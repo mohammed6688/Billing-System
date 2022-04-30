@@ -17,10 +17,12 @@ public class Rating {
         CCH(cdr);
     }
     public void CCH(CDR cdr) throws SQLException {
-        //check if user has any free units and re rate the service
+
         RLH(cdr);
     }
     public void RLH(CDR cdr) throws SQLException{
+        //check if user has any free units and re rate the service
+        //look in the additional_sp column
         //submit to db consumption table
         SiteDAO.instanceData.setConsumption(cdr);
 
