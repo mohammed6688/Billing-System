@@ -19,7 +19,7 @@ public class SiteDAO {
         instanceData = this;
     }
 
-    public void addUser(String national_id, String name, String age, String address) throws SQLException {
+    public int addUser(String national_id, String name, String age, String address) throws SQLException {
         stmt = this.con.prepareStatement("insert into bscs.users(national_id,u_name,age,address) values(?,?,?,?)");
         stmt.setInt(1, Integer.parseInt(national_id));
         stmt.setString(2, name);
@@ -31,9 +31,9 @@ public class SiteDAO {
         System.out.println(rs);
         if (rs != null) {
             System.out.println("user added");
-//            return 1;
+            return 1;
         } else {
-//            return -1;
+            return -1;
         }
     }
 
@@ -62,7 +62,7 @@ public class SiteDAO {
         return ratePlanes;
     }
 
-    public void addContract(String national_id, String rateplane, String msisdn) throws SQLException {
+    public int addContract(String national_id, String rateplane, String msisdn) throws SQLException {
         stmt = this.con.prepareStatement("insert into bscs.contract(msisdn,rateplane_id,userid) values(?,?,?)");
         stmt.setInt(1, Integer.parseInt(msisdn));
         stmt.setInt(2, Integer.parseInt(rateplane));
@@ -73,9 +73,9 @@ public class SiteDAO {
         System.out.println(rs);
         if (rs != null) {
             System.out.println("contract added");
-//            return 1;
+            return 1;
         } else {
-//            return -1;
+            return -1;
         }
     }
 
@@ -93,6 +93,21 @@ public class SiteDAO {
             ));
         }
         return users;
+    }
+
+    public List<ServicePackage> getServicePackage() throws SQLException {
+        stmt = this.con.prepareStatement("select * from bscs.service_package");
+        ResultSet rs = stmt.executeQuery();
+        List<ServicePackage> servicePackage = new ArrayList<>();
+
+        while (rs.next()) {
+            servicePackage.add(new ServicePackage(
+                    rs.getInt("id"),
+                    rs.getString("service_type"),
+                    rs.getInt("units")
+            ));
+        }
+        return servicePackage;
     }
 
     public int addServicePackage(String type, String units) throws SQLException {

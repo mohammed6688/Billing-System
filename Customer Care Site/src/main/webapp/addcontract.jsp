@@ -7,12 +7,14 @@
 <%@include file="/header.html" %>
 <%
     String mode = request.getParameter("mode");
+    int val=0;
+
     if (mode!=null&&mode.equals("adduser")){
         String national_id = request.getParameter("national_id");
         String rateplane = request.getParameter("rateplane");
         String msisdn = request.getParameter("msisdn");
         try {
-            SiteDAO.instanceData.addContract(national_id,rateplane,msisdn);
+            val = SiteDAO.instanceData.addContract(national_id,rateplane,msisdn);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -59,6 +61,17 @@
                         <div class="valid-feedback">Looks good!</div>
                     </div>
 
+                    <%
+                        if (val==1){
+                    %>
+                    <h4>contract Added successfully</h4>
+                    <%
+                    }else if (val==-1){
+                    %>
+                    <h4>error while adding contract</h4>
+                    <%
+                        }
+                    %>
                         <div class="col-12">
                             <button class="btn btn-primary" type="submit">Add Contract</button>
                         </div>

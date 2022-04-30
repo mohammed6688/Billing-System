@@ -3,6 +3,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="com.example.customer_care_app.modules.RatePlane" %>
+<%@ page import="com.example.customer_care_app.modules.ServicePackage" %>
 <%@include file="/header.html" %>
 
 
@@ -53,8 +54,16 @@
                         <div class="d-flex align-items-center"><img src="assets/img/icons/illustrations/3.png" alt=""
                                                                     height="46" width="46">
                             <div class="ms-3">
-                                <h4 class="mb-0">15 service packages</h4>
-                                <p class="text-800 fs--1 mb-0">Out of stock</p>
+                                <%
+                                    try {
+                                        List<ServicePackage> servicePackages =SiteDAO.instanceData.getServicePackage();
+                                %>
+                                <h4 class="mb-0"><%=servicePackages.size()%> service packages</h4>
+                                <%
+                                    } catch (SQLException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                %>
                             </div>
                         </div>
                     </div>

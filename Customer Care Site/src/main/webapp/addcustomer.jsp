@@ -5,13 +5,14 @@
 <%@include file="/header.html" %>
 <%
     String mode = request.getParameter("mode");
+    int val=0;
     if (mode!=null&&mode.equals("adduser")){
         String national_id = request.getParameter("national_id");
         String name = request.getParameter("name");
         String age = request.getParameter("age");
         String address = request.getParameter("address");
         try {
-            SiteDAO.instanceData.addUser(national_id,name,age,address);
+            val = SiteDAO.instanceData.addUser(national_id,name,age,address);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -42,6 +43,18 @@
                   <div class="col-md-4"><label class="form-label" for="validationCustom04">Address</label> <input
                           name="address" class="form-control" id="validationCustom04" required="">
                     <div class="valid-feedback">Looks good!</div>
+                  </div>
+                    <%
+                        if (val==1){
+                    %>
+                      <h4>customer Added successfully</h4>
+                          <%
+                        }else if (val==-1){
+                    %>
+                      <h4>error while adding customer</h4>
+                          <%
+                        }
+                    %>
 
                     <div class="col-12">
                         <button class="btn btn-primary" type="submit">Add User</button>
