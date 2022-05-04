@@ -1,12 +1,13 @@
 package com.example.customer_care_app.fileManager;
 
 import com.example.customer_care_app.modules.CDR;
-import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+
 
 import java.io.*;
 import java.net.URL;
-import java.sql.Date;
+import java.util.Date;
+import java.sql.Timestamp;
 import java.util.Random;
 
 public class CsvHandler {
@@ -49,9 +50,9 @@ public class CsvHandler {
 
     public static void main(String[] args) throws IOException {
 
-        String str = "2015-03-31";
-        Date date = Date.valueOf(str);
-        CDR cdr = new CDR(1, "01147964655", "01147964655", "20", 50, 0, 1, 1);
+        Date date = new Date();
+        Timestamp ts = new Timestamp(date.getTime());
+        CDR cdr = new CDR(1, "01147964655", "01147964655",String.valueOf(ts), 50, 0, 1, 1);
         CsvHandler cv = new CsvHandler();
         cv.writeDataLineByLine(cdr);
     }

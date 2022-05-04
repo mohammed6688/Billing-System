@@ -1,3 +1,4 @@
+import modules.CDR;
 import modules.SiteDAO;
 
 import java.sql.SQLException;
@@ -5,14 +6,20 @@ import java.sql.SQLException;
 public class Main {
     public static void main(String[] args) {
         connectToDB();
-        String filename = "test";
-        CDRParser.parseCDR(filename);
+        String filename = "cdr_1830208061";
+        CDR cdrData = CDRParser.parseCDR(filename);
+
+        try {
+            Rating.FIH(cdrData);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
     private static void connectToDB() {
-        String DB_NAME = "billing project";
+        String DB_NAME = "Billing";
         String USER = "postgres";
-        String PASS = "1502654";
+        String PASS = "0000";
 //        String PASS = "1502654";    //omar pass
 //        String PASS = "1502654";    //ayman pass
 //        String PASS = "1502654";    //abdo pass
