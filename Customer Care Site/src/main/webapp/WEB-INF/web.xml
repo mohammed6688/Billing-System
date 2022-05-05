@@ -16,6 +16,7 @@
     </context-param>
     <context-param>
         <param-name>USER_PASSWORD</param-name>
+
         <param-value>1502654</param-value>
     </context-param>
 </web-app>
