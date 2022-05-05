@@ -1,16 +1,32 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.example.customer_care_app.modules.SiteDAO" %>
 <%@ page import="java.sql.SQLException" %>
+<%@ page import="com.example.customer_care_app.modules.ServicePackage" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.customer_care_app.modules.RatePlane" %>
+
 
 <%@include file="/header.html" %>
 <%
-  String mode = request.getParameter("mode");
+    String CommName,AddMin,AddSMS,AddData,AddRoam,fee,voice,SeCrossvoice,seData,seSMS,seRoam;
+    CommName = request.getParameter("CommName");
+    AddMin = request.getParameter("AddMin");
+    AddSMS = request.getParameter("AddSMS");
+    AddData = request.getParameter("AddData");
+    AddRoam = request.getParameter("AddRoam");
+    fee= request.getParameter("fee");
+
+    voice= request.getParameter("voice");
+
+    SeCrossvoice = request.getParameter("SeCrossvoice");
+    seData  = request.getParameter("seData");
+    seSMS = request.getParameter("seSMS");
+    seRoam= request.getParameter( "seRoam");
   int val=0;
-  if (mode != null && mode.equals("addsp")) {
-    String type = request.getParameter("rb");
-    String units = request.getParameter("units");
+  if (CommName != null && AddMin!= null&& AddSMS!= null&& AddData!= null&& AddRoam!= null &&fee != null ) {
+      RatePlane ratePlane = new RatePlane(0,CommName,Integer.parseInt(voice),Integer.parseInt(SeCrossvoice),Integer.parseInt(seData),Integer.parseInt(seSMS),Integer.parseInt(seRoam),Integer.parseInt(AddMin),Integer.parseInt(AddSMS),Integer.parseInt(AddData),Integer.parseInt(AddRoam),Integer.parseInt(fee));
     try {
-      val =SiteDAO.instanceData.addServicePackage(type, units);
+      val =SiteDAO.instanceData.addRatePlan(ratePlane);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -24,45 +40,156 @@
         <div class="mb-8">
           <h2 class="mb-2">Add New Rate Plane</h2>
         </div>
-        <form action="addsp.jsp" class="row g-3" novalidate="">
-          <input type="hidden" value="addsp" name="mode"/>
-          <div class="col-md-4"><label class="form-label" for="validationCustom01">Units</label> <input
-                  name="units" class="form-control" id="validationCustom01" required="">
+        <form action="addrp.jsp" class="row g-3" novalidate="">
+<%----------------------------------------------------------------------------------------%>
+          <div class="col-md-4">
+
+          <label class="form-label" for="validationCustom01">Commercial Name</label>
+              <input name="CommName" class="form-control" id="validationCustom01" >
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+<%--    ------------------------------------------------------------------------     --%>
+          <div class="col-md-4"><label class="form-label">Voice Service</label>
+            <select name="voice" class="form-select" aria-label="Default select example">
+              <option selected="">choose Units</option>
+              <%
+                List<ServicePackage> servicePackageList = null;
+                try {
+                  servicePackageList = SiteDAO.instanceData.getServicePackage(1);
+                  for (ServicePackage servicePackage: servicePackageList){
+              %>
+              <option value="<%=servicePackage.getId()%>"><%=servicePackage.getUnits()%></option>
+              <%
+                  }
+                } catch (SQLException e) {
+                  throw new RuntimeException(e);
+                }
+              %>
+            </select>
             <div class="valid-feedback">Looks good!</div>
           </div>
 
-          <div class="form-check">
-            <input class="form-check-input" id="voice" type="radio" value="voice" name="rb">
-            <label class="form-check-label" for="voice">Voice</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" id="cross_voice" type="radio" value="cross_voice" name="rb">
-            <label class="form-check-label" for="cross_voice">Cross Voice</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" id="data" type="radio" name="rb" value="data" checked="">
-            <label class="form-check-label" for="data">Data</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" id="sms" type="radio" name="rb" value="sms" checked="">
-            <label class="form-check-label" for="sms">Sms</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" id="roaming" type="radio" name="rb" value="roaming" checked="">
-            <label class="form-check-label" for="roaming">Roaming</label>
+<%--          -----------------------------------------------------------------------         --%>
+          <div class="col-md-4"><label class="form-label">cross voice Service</label>
+            <select name="SeCrossvoice" class="form-select" aria-label="Default select example">
+              <option selected="">choose Units</option>
+              <%
+
+                try {
+                  servicePackageList = SiteDAO.instanceData.getServicePackage(2);
+                  for (ServicePackage servicePackage: servicePackageList){
+              %>
+              <option value="<%=servicePackage.getId()%>"><%=servicePackage.getUnits()%></option>
+              <%
+                  }
+                } catch (SQLException e) {
+                  throw new RuntimeException(e);
+                }
+              %>
+            </select>
+            <div class="valid-feedback">Looks good!</div>
           </div>
 
-          <%
-            if (val==1){
-          %>
-          <h4>service package Added successfully</h4>
-          <%
-          }else if (val==-1){
-          %>
-          <h4>error while adding service package</h4>
-          <%
-            }
-          %>
+
+<%--          -------------------------------------------------------------------------------%>
+          <div class="col-md-4"><label class="form-label">data Service</label>
+            <select name="seData" class="form-select" aria-label="Default select example">
+              <option selected="">choose Units</option>
+              <%
+
+                try {
+                  servicePackageList = SiteDAO.instanceData.getServicePackage(3);
+                  for (ServicePackage servicePackage: servicePackageList){
+              %>
+              <option value="<%=servicePackage.getId()%>"><%=servicePackage.getUnits()%></option>
+              <%
+                  }
+                } catch (SQLException e) {
+                  throw new RuntimeException(e);
+                }
+              %>
+            </select>
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+
+<%--          ------------------------------------------------------------------------------------%>
+          <div class="col-md-4"><label class="form-label">sms Service</label>
+            <select name="seSMS" class="form-select" aria-label="Default select example">
+              <option selected="">choose Units</option>
+              <%
+                try {
+                  servicePackageList = SiteDAO.instanceData.getServicePackage(4);
+                  for (ServicePackage servicePackage: servicePackageList){
+              %>
+              <option value="<%=servicePackage.getId()%>"><%=servicePackage.getUnits()%></option>
+              <%
+                  }
+                } catch (SQLException e) {
+                  throw new RuntimeException(e);
+                }
+              %>
+            </select>
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+
+          <%--          ------------------------------------------------------------------------------------%>
+          <div class="col-md-4"><label class="form-label">roaming Service</label>
+            <select name="seRoam" class="form-select" aria-label="Default select example">
+              <option selected="">choose Units</option>
+              <%
+
+                try {
+                  servicePackageList = SiteDAO.instanceData.getServicePackage(5);
+                  for (ServicePackage servicePackage: servicePackageList){
+              %>
+              <option value="<%=servicePackage.getId()%>"><%=servicePackage.getUnits()%></option>
+              <%
+                  }
+                } catch (SQLException e) {
+                  throw new RuntimeException(e);
+                }
+              %>
+            </select>
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+
+<%-----------------------------------------------------------------------------------------%>
+          <div class="col-md-4">
+
+            <label class="form-label" for="validationCustom01">Additional minutes</label> <input
+                  name="AddMin" class="form-control" id="validationCustom01" >
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+<%--          ---------------------------------------------               --%>
+          <div class="col-md-4">
+
+            <label class="form-label" for="validationCustom01">Additional sms</label> <input
+                  name="AddSMS" class="form-control" id="validationCustom01" >
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+          <%--          ---------------------------------------------               --%>
+          <div class="col-md-4">
+
+            <label class="form-label" for="validationCustom01">Additional data</label> <input
+                  name="AddData" class="form-control" id="validationCustom01" >
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+          <%--          ---------------------------------------------               --%>
+          <div class="col-md-4">
+
+            <label class="form-label" for="validationCustom01">Additional roaming</label> <input
+                  name="AddRoam" class="form-control" id="validationCustom01" >
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+          <%--          ---------------------------------------------               --%>
+          <div class="col-md-4">
+
+            <label class="form-label" for="validationCustom01">fee</label> <input
+                  name="fee" class="form-control" id="validationCustom01" >
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+          <%--          ---------------------------------------------               --%>
+
           <div class="col-12">
             <button class="btn btn-primary" type="submit">Add Service Package</button>
           </div>
