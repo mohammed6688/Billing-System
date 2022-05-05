@@ -1,4 +1,5 @@
 import modules.CDR;
+import modules.Contract;
 import modules.RatePlane;
 import modules.SiteDAO;
 
@@ -10,13 +11,13 @@ public class Rating {
     public static void FIH(CDR cdrData) throws SQLException {
         //knows the type of the service then pass it to RIH
         int serviceType = 0;
-        int netIdentification = 0;
 
         /*
             voice service = 1
             sms service = 2
             data service = 3
             roaming service = 4
+            voice cross service = 5
          */
         /*
             on_net = 1
@@ -24,20 +25,15 @@ public class Rating {
          */
         if (cdrData.getService_id() == 1) {
             serviceType = 1;
-            if (cdrData.getTerminated_msisdn().regionMatches(0, "011", 0, 3)) {
-                netIdentification = 1;
-                System.out.println("I'm onNet ");
-            } else {
-                netIdentification = 2;
-                System.out.println("I'm crossNet ");
-            }
         } else if (cdrData.getService_id() == 2) {
             serviceType = 2;
         } else if (cdrData.getService_id() == 3) {
             serviceType = 3;
         } else if (cdrData.getService_id() == 4) {
             serviceType = 4;
-        } else {
+        } else if (cdrData.getService_id() == 5) {
+            serviceType = 5;
+        }else {
             try {
                 throw new Exception("Service Not Exist !!, Check the CDR generator");
             } catch (Exception e) {
@@ -45,44 +41,59 @@ public class Rating {
             }
         }
 
-        RIH(cdrData, serviceType, netIdentification);
+        RIH(cdrData, serviceType);
     }
 
-    public static void RIH(CDR cdr, int typeOfService,int typeOfVoice) throws SQLException {
+    public static void RIH(CDR cdr, int typeOfService) throws SQLException {
         //rate the service that user consumed by the help of billingDB
-        // 1- Aggregate User Consumption from DB [if exit (in new bill cycle case)]
-        // 2- Know his Rateplan and each units
-        // 3- Subtract his consumption from his Rateplan
-        // 4-
         //========================================================
         //1- Check the contract table and check units based on service
         //2- rate the service (Units based on service) & LE
 
-        List<RatePlane> uRatePlane =SiteDAO.instanceData.getRatePlane(cdr.getRatePlan_id());
+        RatePlane uRatePlane = null;
+        List<RatePlane> ratePlanes =SiteDAO.instanceData.getRatePlane(cdr.getRatePlan_id());
+        Contract contract = SiteDAO.instanceData.getContract(cdr.getTerminated_msisdn());
+        for (RatePlane ratePlane:ratePlanes){
+            if (ratePlane.getId()==cdr.getRatePlan_id()){
+                uRatePlane = ratePlane;
+            }
+        }
+
+        if (uRatePlane==null){
+            System.out.println("the ratePlane id is wrong");
+            return;
+        }
 
         //voice service = 1, sms service = 2, data service = 3,roaming service = 4
         switch (typeOfService){
-            case 1:
-                switch (typeOfVoice){
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    default:
-                        break;
+            case 1: //voice
+                break;
+            case 2: //data
+                break;
+            case 3: //sms
+                int smsCount = cdr.getDuration();
+                int availableSms =uRatePlane.getSms_service();
+                int restSms = availableSms - smsCount;
+                if (contract==null){
+                    System.out.println("the contract not found");
+                    return;
                 }
+                if (restSms>0){
+                    cdr.setRate(0);
+                }else {
+
+                }
+                CCH(cdr);
                 break;
-            case 2:
+            case 4: //roaming
                 break;
-            case 3:
-                break;
-            case 4:
+            case 5: //cross voice
                 break;
             default:
                 break;
         }
 
-        CCH(cdr);
+        //CCH(cdr,typeOfVoice);
     }
 
     public static void CCH(CDR cdr) throws SQLException {
