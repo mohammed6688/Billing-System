@@ -7,14 +7,15 @@ public class Main {
     public static void main(String[] args) {
 //        connectToDB();
 //        String filename = "cdr_1830208061";
-        GetLastCDR.getLastModified();
-//        CDR cdrData = CDRParser.parseCDR(filename);
-//
-//        try {
-//            Rating.FIH(cdrData);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+        String filename =  GetLastCDR.getLastModified();
+        System.out.println(filename);
+        CDR cdrData = CDRParser.parseCDR(filename);
+
+        try {
+            Rating.FIH(cdrData);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
     private static void connectToDB() {

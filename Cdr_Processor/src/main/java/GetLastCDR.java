@@ -2,9 +2,9 @@ import java.io.File;
 
 public class GetLastCDR {
 
-    public static File getLastModified()
+    public static String getLastModified()
     {
-        File directory = new File("D:\\ITI\\billing\\project\\Billing-System\\Cdr_Processor\\CDRFiles");
+        File directory = new File("Cdr_Processor\\CDRFiles");
         File[] files = directory.listFiles(File::isFile);
         long lastModifiedTime = Long.MIN_VALUE;
 //        long lastModifiedTime = 0;
@@ -23,8 +23,11 @@ public class GetLastCDR {
                 }
             }
         }
-        System.out.println(chosenFile);
-        return chosenFile;
+//        System.out.println(chosenFile);
+//        String st = chosenFile.getAbsolutePath();
+        String st = chosenFile.getName();
+//        System.out.println(st);
+        return st;
 
     }
 
