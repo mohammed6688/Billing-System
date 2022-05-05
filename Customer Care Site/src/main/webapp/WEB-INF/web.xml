@@ -8,7 +8,7 @@
     </listener>
     <context-param>
         <param-name>DB_NAME</param-name>
-        <param-value>Billing</param-value>
+        <param-value>billing project</param-value>
     </context-param>
     <context-param>
         <param-name>USER_NAME</param-name>
@@ -16,6 +16,6 @@
     </context-param>
     <context-param>
         <param-name>USER_PASSWORD</param-name>
-        <param-value>0000</param-value>
+        <param-value>1502654</param-value>
     </context-param>
 </web-app>

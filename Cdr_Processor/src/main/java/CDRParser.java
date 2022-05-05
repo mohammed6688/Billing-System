@@ -42,6 +42,7 @@ public class CDRParser {
 
         }
         catch (FileNotFoundException ex){
+            System.out.println(ex.toString());
             System.out.println("File Not Exist");
         }
         catch (IOException | CsvValidationException e){
