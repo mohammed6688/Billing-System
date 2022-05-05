@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) {
-//        connectToDB();
+        connectToDB();
 //        String filename = "cdr_1830208061";
         String filename =  GetLastCDR.getLastModified();
         System.out.println(filename);
