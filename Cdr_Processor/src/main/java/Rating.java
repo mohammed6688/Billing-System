@@ -50,13 +50,19 @@ public class Rating {
         //1- Check the contract table and check units based on service
         //2- rate the service (Units based on service) & LE
 
+        int overUnits=0;
         RatePlane uRatePlane = null;
         List<RatePlane> ratePlanes =SiteDAO.instanceData.getRatePlane(cdr.getRatePlan_id());
-        Contract contract = SiteDAO.instanceData.getContract(cdr.getTerminated_msisdn());
+        Contract contract = SiteDAO.instanceData.getContract(cdr.getSource_msisdn());
         for (RatePlane ratePlane:ratePlanes){
             if (ratePlane.getId()==cdr.getRatePlan_id()){
                 uRatePlane = ratePlane;
             }
+        }
+
+        if (contract==null){
+            System.out.println("the contract not found");
+            return;
         }
 
         if (uRatePlane==null){
@@ -72,20 +78,41 @@ public class Rating {
                 break;
             case "sms":
                 int smsCount = cdr.getDuration();
-                int availableSms = uRatePlane.getSms_service();
+                int availableSms = contract.getCurrent_sms();
                 int restSms = availableSms - smsCount;
-                if (contract==null){
-                    System.out.println("the contract not found");
-                    return;
-                }
-                if (restSms>0 || restSms == 0){
+                if (restSms>0 || restSms == 0){ //the user consumed service inside his bundle
                     cdr.setRate(0);
-                }else {
-
+                }else { //the user exceeded his bundle
+                    int additionalRate;
+                    if (availableSms!=0){ //there is remained sms for that user
+                        overUnits=availableSms;
+                        additionalRate = (smsCount - availableSms) * uRatePlane.getAdditional_sms_service();
+                    }else {  // there is no sms available for that user
+                        additionalRate = smsCount * uRatePlane.getAdditional_sms_service();
+                    }
+                    cdr.setRate(additionalRate);
                 }
-                CCH(cdr);
+                System.out.println("(RIH)the rate in sms is: "+cdr.getRate());
+                CCH(cdr,overUnits);
                 break;
             case "roaming":
+                int consumedRoamingMinutes = cdr.getDuration();
+                int availableRoamingMinutes = contract.getCurrent_roaming();
+                int restRoamingMinutes = availableRoamingMinutes - consumedRoamingMinutes;
+                if (restRoamingMinutes>0 || restRoamingMinutes == 0){ //the user consumed service inside his bundle
+                    cdr.setRate(0);
+                }else { //the user exceeded his bundle
+                    int additionalRate;
+                    if (availableRoamingMinutes!=0){ //there is remained sms for that user
+                        overUnits=availableRoamingMinutes;
+                        additionalRate = (consumedRoamingMinutes - availableRoamingMinutes) * uRatePlane.getAdditional_roaming_service();
+                    }else {  // there is no sms available for that user
+                        additionalRate = consumedRoamingMinutes * uRatePlane.getAdditional_roaming_service();
+                    }
+                    cdr.setRate(additionalRate);
+                }
+                System.out.println("(RIH)the rate in roaming is: "+cdr.getRate());
+                CCH(cdr,overUnits);
                 break;
             default:
                 break;
@@ -94,7 +121,7 @@ public class Rating {
         //CCH(cdr,typeOfVoice);
     }
 
-    public static void CCH(CDR cdr) throws SQLException {
+    public static void CCH(CDR cdr, int overUnits) throws SQLException {
         Integer discount = SiteDAO.instanceData.getDiscount(cdr.getSource_msisdn());
         int OldRate = cdr.getRate();
         int OldDuration = cdr.getDuration();

@@ -203,9 +203,9 @@ public class SiteDAO {
         }
     }
 
-    public Contract getContract(String terminated_msisdn) throws SQLException {
+    public Contract getContract(String source_msisdn) throws SQLException {
         stmt = this.con.prepareStatement("select * from bscs.contract where msisdn = ?");
-        stmt.setInt(1,Integer.parseInt(terminated_msisdn));
+        stmt.setString(1,source_msisdn);
         ResultSet rs = stmt.executeQuery();
         List<Contract> contract = new ArrayList<>();
 

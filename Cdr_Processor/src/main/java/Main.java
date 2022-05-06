@@ -6,8 +6,8 @@ import java.sql.SQLException;
 public class Main {
     public static void main(String[] args) {
         connectToDB();
-//        String filename = "cdr_1830208061";
-        String filename =  GetLastCDR.getLastModified();
+        String filename = "cdr_1830208061";
+        //String filename =  GetLastCDR.getLastModified();
         System.out.println(filename);
         CDR cdrData = CDRParser.parseCDR(filename);
 
@@ -19,7 +19,7 @@ public class Main {
 
     }
     private static void connectToDB() {
-        String DB_NAME = "billing project";
+        String DB_NAME = "Billing";
         String USER = "postgres";
         String PASS = "1502654";
 //        String PASS = "0000";    //omar pass
