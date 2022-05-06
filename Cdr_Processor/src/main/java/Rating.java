@@ -10,7 +10,7 @@ public class Rating {
 
     public static void FIH(CDR cdrData) throws SQLException {
         //knows the type of the service then pass it to RIH
-        int serviceType = 0;
+        String serviceType = "";
 
         /*
             voice service = 1
@@ -24,15 +24,15 @@ public class Rating {
             cross_net = 2
          */
         if (cdrData.getService_id() == 1) {
-            serviceType = 1;
+            serviceType = "voice";
         } else if (cdrData.getService_id() == 2) {
-            serviceType = 2;
+            serviceType = "cross";
         } else if (cdrData.getService_id() == 3) {
-            serviceType = 3;
+            serviceType = "data";
         } else if (cdrData.getService_id() == 4) {
-            serviceType = 4;
+            serviceType = "sms";
         } else if (cdrData.getService_id() == 5) {
-            serviceType = 5;
+            serviceType = "roaming";
         }else {
             try {
                 throw new Exception("Service Not Exist !!, Check the CDR generator");
@@ -44,7 +44,7 @@ public class Rating {
         RIH(cdrData, serviceType);
     }
 
-    public static void RIH(CDR cdr, int typeOfService) throws SQLException {
+    public static void RIH(CDR cdr, String typeOfService) throws SQLException {
         //rate the service that user consumed by the help of billingDB
         //========================================================
         //1- Check the contract table and check units based on service
@@ -63,31 +63,29 @@ public class Rating {
             System.out.println("the ratePlane id is wrong");
             return;
         }
-
-        //voice service = 1, sms service = 2, data service = 3,roaming service = 4
         switch (typeOfService){
-            case 1: //voice
+            case "voice":
                 break;
-            case 2: //data
+            case "cross":
                 break;
-            case 3: //sms
+            case "data":
+                break;
+            case "sms":
                 int smsCount = cdr.getDuration();
-                int availableSms =uRatePlane.getSms_service();
+                int availableSms = uRatePlane.getSms_service();
                 int restSms = availableSms - smsCount;
                 if (contract==null){
                     System.out.println("the contract not found");
                     return;
                 }
-                if (restSms>0){
+                if (restSms>0 || restSms == 0){
                     cdr.setRate(0);
                 }else {
 
                 }
                 CCH(cdr);
                 break;
-            case 4: //roaming
-                break;
-            case 5: //cross voice
+            case "roaming":
                 break;
             default:
                 break;

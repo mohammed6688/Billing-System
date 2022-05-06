@@ -142,7 +142,9 @@ public class SiteDAO {
                     rs.getInt("current_cross_voice"),
                     rs.getInt("current_data"),
                     rs.getInt("current_sms"),
-                    rs.getInt("current_roaming")
+                    rs.getInt("current_roaming"),
+                    rs.getInt("discount"),
+                    rs.getInt("current_additional_sp")
             ));
         }
         if (contract.size()!=0){

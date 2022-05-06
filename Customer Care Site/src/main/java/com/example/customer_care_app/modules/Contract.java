@@ -12,8 +12,9 @@ public class Contract {
     int current_sms;
     int current_roaming;
     int discount;
+    int current_additional_sp;
 
-    public Contract(int contract_id, int msisdn, int rateplane_id, int userid, int additional_sp, int current_voice, int current_cross_voice, int current_data, int current_sms, int current_roaming, int discount) {
+    public Contract(int contract_id, int msisdn, int rateplane_id, int userid, int additional_sp, int current_voice, int current_cross_voice, int current_data, int current_sms, int current_roaming, int discount, int current_additional_sp) {
         this.contract_id = contract_id;
         this.msisdn = msisdn;
         this.rateplane_id = rateplane_id;
@@ -25,6 +26,7 @@ public class Contract {
         this.current_sms = current_sms;
         this.current_roaming = current_roaming;
         this.discount = discount;
+        this.current_additional_sp = current_additional_sp;
     }
 
     public int getContract_id() {
@@ -113,5 +115,13 @@ public class Contract {
 
     public void setDiscount(int discount) {
         this.discount = discount;
+    }
+
+    public int getCurrent_additional_sp() {
+        return current_additional_sp;
+    }
+
+    public void setCurrent_additional_sp(int current_additional_sp) {
+        this.current_additional_sp = current_additional_sp;
     }
 }
