@@ -141,6 +141,7 @@ public class Rating {
             System.out.println("CCH newDuration"+NewDuration+" rating :"+cdr.getRate());
             RLH(cdr, (int)NewDuration);
             // System.out.println("CCH newDuration"+NewDuration+" rating :"+cdr.getRate());
+
         }
     }
 

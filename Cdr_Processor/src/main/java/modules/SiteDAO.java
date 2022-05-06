@@ -156,6 +156,7 @@ public class SiteDAO {
         }
         return null;
     }
+
     public int getUnits(String msisdn, String str) throws SQLException {
         System.out.println(str);
         // stmt = this.con.prepareStatement("select current_voice from bscs.contract  where msisdn = ? ");
