@@ -39,7 +39,7 @@
                             <div class="ms-3">
                                 <%
                                     try {
-                                        List<RatePlane> ratePlanes =SiteDAO.instanceData.getRatePlane();
+                                        List<RatePlane> ratePlanes =SiteDAO.instanceData.getRatePlanes();
                                 %>
                                 <h4 class="mb-0"><%=ratePlanes.size()%> rateplanes</h4>
                                 <%
