@@ -51,14 +51,9 @@ public class Rating {
         //2- rate the service (Units based on service) & LE
 
         int overUnits=0;
-        RatePlane uRatePlane = null;
-        List<RatePlane> ratePlanes =SiteDAO.instanceData.getRatePlane(cdr.getRatePlan_id());
+        RatePlane uRatePlane =SiteDAO.instanceData.getRatePlane(cdr.getRatePlan_id()).get(0);
         Contract contract = SiteDAO.instanceData.getContract(cdr.getSource_msisdn());
-        for (RatePlane ratePlane:ratePlanes){
-            if (ratePlane.getId()==cdr.getRatePlan_id()){
-                uRatePlane = ratePlane;
-            }
-        }
+
 
         if (contract==null){
             System.out.println("the contract not found");
