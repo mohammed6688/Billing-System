@@ -202,4 +202,33 @@ public class SiteDAO {
 //            return -1;
         }
     }
+
+    public Contract getContract(String terminated_msisdn) throws SQLException {
+        stmt = this.con.prepareStatement("select * from bscs.contract where msisdn = ?");
+        stmt.setInt(1,Integer.parseInt(terminated_msisdn));
+        ResultSet rs = stmt.executeQuery();
+        List<Contract> contract = new ArrayList<>();
+
+        while (rs.next()) {
+            contract.add(new Contract(
+                    rs.getInt("contract_id"),
+                    rs.getInt("msisdn"),
+                    rs.getInt("rateplane_id"),
+                    rs.getInt("userid"),
+                    rs.getInt("additional_sp"),
+                    rs.getInt("current_voice"),
+                    rs.getInt("current_cross_voice"),
+                    rs.getInt("current_data"),
+                    rs.getInt("current_sms"),
+                    rs.getInt("current_roaming"),
+                    rs.getInt("discount"),
+                    rs.getInt("current_additional_sp")
+            ));
+        }
+        if (contract.size()!=0){
+            return contract.get(0);
+        }else {
+            return null;
+        }
+    }
 }
