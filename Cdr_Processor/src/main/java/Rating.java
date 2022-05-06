@@ -87,92 +87,113 @@ public class Rating {
 
     public static void CCH(CDR cdr) throws SQLException {
         Integer discount = SiteDAO.instanceData.getDiscount(cdr.getSource_msisdn());
+
         int OldRate = cdr.getRate();
         int OldDuration = cdr.getDuration();
-        int NewRate = 0, NewDuration = 0;
-        if (discount == -1) {
-            RLH(cdr, NewDuration);
+        float NewRate = 0 , NewDuration = 0;
+        if (discount == -1 || discount==0) {
+            RLH(cdr,(int) NewDuration);
         } else {
             if (OldRate != 0) {
-                NewRate = OldRate * (1 - (discount / 100));
-                cdr.setRate(NewRate);
+                System.out.println("in oldrate condition");
+                NewRate = ((float) OldRate * (1 - ((float)discount / 100)));
+                System.out.println(NewRate);
+                cdr.setRate((int) NewRate);
             } else {
-                NewDuration = OldDuration * (1 - (discount / 100));
+                NewDuration = ((float)OldDuration * (1 - ((float)discount / 100)));
             }
-            RLH(cdr, NewDuration);
+            System.out.println("CCH newDuration"+NewDuration+" rating :"+cdr.getRate());
+            RLH(cdr, (int)NewDuration);
+           // System.out.println("CCH newDuration"+NewDuration+" rating :"+cdr.getRate());
         }
     }
 
     public static void RLH(CDR cdr, Integer nDuration) throws SQLException {
-        String Service_type = SiteDAO.instanceData.getService(cdr.getService_id());
+        int Service_type = cdr.getService_id();
         int FreeU = SiteDAO.instanceData.getAddFreeUnits(cdr.getSource_msisdn());
         RatePlane currentRatePlan = SiteDAO.instanceData.getRatePlane(cdr.getRatePlan_id()).get(0);
         String str=serviceTypeMapping(Service_type);
-
+        int units= SiteDAO.instanceData.getUnits(cdr.getSource_msisdn(),str);
         int oldDuration = cdr.getDuration();
         int nFree = 0, price = 0;
-
-        if (FreeU != -1) {
+        System.out.println(FreeU);
+        //CHECK IF THERE IS FREE SP
+        if (FreeU != -1 && FreeU !=0) {
+            // IF THERE IS FREE UNITS CHECK IF THE CDR IS  RATED OR NOT
             if (cdr.getRate() == 0) {
-                //duration
-                if (nDuration == 0)  nDuration=oldDuration;
-                // use nduration
+                //IF NOT RATED AND NO DISCOUNT ON DURATION THEN DEDUCE THE DURATION
+                if (nDuration == 0) nDuration = oldDuration;
+                // CHECK IF WHETHER FREE UNITS IS GREATER THAN DURATION OR NOT
                 if (nDuration > FreeU) nDuration = nDuration - FreeU;
-                else nFree = FreeU - nDuration;
+                else {
+                    // CALC THE REMIND FREE UNITS TO BE UPDATED IN THE DATABASE
+                    nFree = FreeU - nDuration;
+                    nDuration=0;
+                }
 
             } else {
-                if (oldDuration > FreeU) {
-                    nDuration = oldDuration - FreeU;
-                    price=getPrice(currentRatePlan,Service_type);
+                // IF THE CDR IS RATED CHECK THEN RERATE THE CDR
+                if (nDuration == 0) nDuration = oldDuration;// THEN THERE IS NO DISCOUNT
+                if (nDuration > FreeU) {
+                    nDuration = nDuration - FreeU;
+                    // GET THE EXTERNAL CHARGE OF ADDITIONAL UNITS
+                    price = getPrice(currentRatePlan, Service_type);
+                    // SET THE NEW RATE IN CDR
                     cdr.setRate(price * nDuration);
+                    // RE ASSIGN THE NDURATION TO ZERO
                     nDuration = 0;
                 } else {
                     nFree = FreeU - oldDuration;
                     cdr.setRate(0);
+
                 }
             }
+        }else{
+            nDuration=oldDuration;
         }
-        int units= SiteDAO.instanceData.getUnits(cdr.getSource_msisdn(),str);
+        //CHECK IF THE REST OF UNITS IN MAIN BUNDLE
         units =units-nDuration;
+        //SET UNITS IN CONTRACT TABLE
         SiteDAO.instanceData.setUnits(cdr.getSource_msisdn(),str,units,nFree);
+        //SAVE THE CDR IN THE RTX DB
         SiteDAO.instanceData.setRTX(cdr);
     }
-    private static String serviceTypeMapping(String Service_type){
+    private static String serviceTypeMapping(int Service_type){
         String str =null;
         switch (Service_type){
-            case "voice":
+            case 1:
                 str="current_voice";
                 break;
-            case "cross_voice":
+            case 2:
                 str= "current_cross_voice";
                 break;
-            case "sms":
+            case 3:
                 str="current_sms";
                 break;
-            case "data":
+            case 4:
                 str="current_data";
                 break;
-            case "roaming":
+            case 5:
                 str= "current_roaming";
                 break;
         }
         return str;
     }
-    private static int getPrice(RatePlane ratePlane ,String Service_type){
+    private static int getPrice(RatePlane ratePlane ,int Service_type){
 
         int price = 0;
         switch (Service_type) {
-            case "voice":
-            case "cross_voice":
+            case 1:
+            case 2:
                 price = ratePlane.getAdditional_minutes_service();
                 break;
-            case "sms":
+            case 3:
                 price = ratePlane.getAdditional_sms_service();
                 break;
-            case "data":
+            case 4:
                 price = ratePlane.getAdditional_data_service();
                 break;
-            case "roaming":
+            case 5:
                 price = ratePlane.getAdditional_roaming_service();
                 break;
         }

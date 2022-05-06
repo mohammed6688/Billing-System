@@ -9,13 +9,14 @@ public class SiteDAO {
     private Connection con;
     public static SiteDAO instanceData;
     PreparedStatement stmt;
-
+    Statement NStmt;
     public SiteDAO(String dbname, String user, String pass) throws SQLException {
         this.connect(dbname, user, pass);
     }
 
     private void connect(String dbname, String user, String pass) throws SQLException {
         this.con = DriverManager.getConnection(DB_URL + dbname, user, pass);
+        this.NStmt= this.con.createStatement();
         instanceData = this;
     }
 
@@ -154,25 +155,34 @@ public class SiteDAO {
         }
         return null;
     }
- public Integer getUnits(String msisdn, String str) throws SQLException {
-     stmt = this.con.prepareStatement("select ? from bscs.contract  where msisdn = ? ");
-     stmt.setString(1,str);
-     stmt.setString(2,msisdn);
-     ResultSet rs = stmt.executeQuery();
+ public int getUnits(String msisdn, String str) throws SQLException {
+        System.out.println(str);
+    // stmt = this.con.prepareStatement("select current_voice from bscs.contract  where msisdn = ? ");
+     String SQL = "select "+str+" from bscs.contract  where msisdn ='"+msisdn+"' ;";
+
+     ResultSet rs = NStmt.executeQuery(SQL);
+   //  stmt.setString(1,str);
+//     stmt.setString(1,msisdn);
+//     stmt.setc
+ //    ResultSet rs = stmt.executeQuery();
+
      while (rs.next()) {
+
          return rs.getInt(str);
      }
      return -1;
  }
  public void setUnits(String msisdn,String str,int nduration,int nfree) throws SQLException {
-     stmt = this.con.prepareStatement("update bscs.contracts SET ?=?,current_additional_sp=? where msisdn=?");
-     stmt.setString(1,str);
-     stmt.setInt(2, nduration);
-     stmt.setInt(3,nfree);
-     stmt.setString(4, msisdn);
+//     stmt = this.con.prepareStatement("update bscs.contracts SET ?=?,current_additional_sp=? where msisdn=?");
+//     stmt.setString(1,str);
+//     stmt.setInt(2, nduration);
+//     stmt.setInt(3,nfree);
+//     stmt.setString(4, msisdn);
 
-     stmt.executeUpdate();
-     ResultSet rs = stmt.getGeneratedKeys();
+     NStmt.executeUpdate("update bscs.contract SET "+str+" = "+nduration+",current_additional_sp= "+nfree+"  where msisdn ='"+msisdn+"' ;");
+   //  stmt.executeUpdate();
+     ResultSet rs = NStmt.getGeneratedKeys();
+
      System.out.println(rs);
      if (rs != null) {
          System.out.println("Rating added");
