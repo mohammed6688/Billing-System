@@ -121,7 +121,85 @@ public class SiteDAO {
         return users;
     }
 
-    public void setConsumption(CDR cdr) {
+    public Integer getDiscount(String msisdn) throws SQLException {
+        stmt = this.con.prepareStatement("select discount from bscs.contract where msisdn = ?");
+        stmt.setString(1, msisdn);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            return rs.getInt("discount");
+        }
+        return -1;
+    }
 
+    public Integer getAddFreeUnits(String msisdn) throws SQLException {
+        //     stmt = this.con.prepareStatement("select units from bscs.service_package as s inner join bscs.contract as con ON con.msisdn = ? and con.additional_sp= s.id; ");
+        stmt = this.con.prepareStatement("select current_additional_sp from bscs.contract as con where con.msisdn = ? ");
+
+        stmt.setString(1, msisdn);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            return rs.getInt("current_additional_sp");
+        }
+        return -1;
+    }
+
+    public String getService(int id) throws SQLException {
+        //     stmt = this.con.prepareStatement("select units from bscs.service_package as s inner join bscs.contract as con ON con.msisdn = ? and con.additional_sp= s.id; ");
+        stmt = this.con.prepareStatement("select service_type from bscs.service_package  where id = ? ");
+
+        stmt.setInt(1, id);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            return rs.getString("service_type");
+        }
+        return null;
+    }
+    public Integer getUnits(String msisdn, String str) throws SQLException {
+        stmt = this.con.prepareStatement("select ? from bscs.contract  where msisdn = ? ");
+        stmt.setString(1,str);
+        stmt.setString(2,msisdn);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            return rs.getInt(str);
+        }
+        return -1;
+    }
+    public void setUnits(String msisdn,String str,int nduration,int nfree) throws SQLException {
+        stmt = this.con.prepareStatement("update bscs.contracts SET ?=?,current_additional_sp=? where msisdn=?");
+        stmt.setString(1,str);
+        stmt.setInt(2, nduration);
+        stmt.setInt(3,nfree);
+        stmt.setString(4, msisdn);
+
+        stmt.executeUpdate();
+        ResultSet rs = stmt.getGeneratedKeys();
+        System.out.println(rs);
+        if (rs != null) {
+            System.out.println("Rating added");
+//            return 1;
+        } else {
+//            return -1;
+        }
+    }
+    public void setRTX(CDR cdr) throws SQLException {
+        stmt = this.con.prepareStatement("insert into rtx.consumption (source_msisdn,terminated_msisdn,time_stamp," +
+                "duration,rate,service_id,rateplane_id) values(?,?,?,?,?,?,?)");
+        stmt.setString(1, cdr.getSource_msisdn());
+        stmt.setString(2, cdr.getTerminated_msisdn());
+        stmt.setString(3,cdr.getTimestamp());
+        stmt.setInt(4, cdr.getDuration());
+        stmt.setInt(5, cdr.getRate());
+        stmt.setInt(6, cdr.getService_id());
+        stmt.setInt(7, cdr.getRatePlan_id());
+
+        stmt.executeUpdate();
+        ResultSet rs = stmt.getGeneratedKeys();
+        System.out.println(rs);
+        if (rs != null) {
+            System.out.println("Rating added");
+//            return 1;
+        } else {
+//            return -1;
+        }
     }
 }
