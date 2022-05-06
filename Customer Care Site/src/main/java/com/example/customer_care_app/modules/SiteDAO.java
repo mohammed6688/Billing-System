@@ -109,12 +109,71 @@ public class SiteDAO {
         }
         return servicePackage;
     }
+    public List<ServicePackage> getServicePackage(int service) throws SQLException {
+        String str = null;
+        switch (service){
+            case 1:
+                str = "voice";
+                break;
+            case 2:
+                str = "cross_voice";
+                break;
+            case 3:
+                str = "data";
+                break;
+            case 4:
+                str = "sms";
+                break;
+            case 5:
+                str = "roaming";
+                break;
+
+        }
+        stmt = this.con.prepareStatement("select * from bscs.service_package where service_type = '"+str+"'");
+        ResultSet rs = stmt.executeQuery();
+        List<ServicePackage> servicePackage = new ArrayList<>();
+
+        while (rs.next()) {
+            servicePackage.add(new ServicePackage(
+                    rs.getInt("id"),
+                    rs.getString("service_type"),
+                    rs.getInt("units")
+            ));
+        }
+        return servicePackage;
+    }
 
     public int addServicePackage(String type, String units) throws SQLException {
         stmt = this.con.prepareStatement("insert into bscs.service_package(service_type,units) values(?,?)");
         stmt.setString(1, type);
         stmt.setInt(2, Integer.parseInt(units));
 
+        stmt.executeUpdate();
+        ResultSet rs = stmt.getGeneratedKeys();
+        System.out.println(rs);
+        if (rs != null) {
+            System.out.println("service package added");
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+    public int addRatePlan (RatePlane ratePlane) throws SQLException {
+        stmt = this.con.prepareStatement("insert into bscs.rateplanes(commercial_name,voice_service,cross_voice_service," +
+                                            "data_service,sms_service,roaming_service,additional_minutes," +
+                                            "additional_sms,additional_data,additional_roaming,fee)" +
+                                            " values(?,?,?,?,?,?,?,?,?,?,?)");
+        stmt.setString(1, ratePlane.getCommercial_name());
+        stmt.setInt(2, ratePlane.getVoice_service());
+        stmt.setInt(3,ratePlane.getCross_voice_service());
+        stmt.setInt(4, ratePlane.getData_service());
+        stmt.setInt(5, ratePlane.getSms_service());
+        stmt.setInt(6, ratePlane.getRoaming_service());
+        stmt.setInt(7,ratePlane.getAdditional_minutes_service() );
+        stmt.setInt(8, ratePlane.getAdditional_sms_service());
+        stmt.setInt(9, ratePlane.getAdditional_data_service());
+        stmt.setInt(10, ratePlane.getAdditional_roaming_service());
+        stmt.setInt(11, ratePlane.getFee());
         stmt.executeUpdate();
         ResultSet rs = stmt.getGeneratedKeys();
         System.out.println(rs);
