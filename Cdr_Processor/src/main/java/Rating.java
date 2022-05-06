@@ -1,6 +1,7 @@
 import modules.CDR;
 import modules.RatePlane;
 import modules.SiteDAO;
+import sun.management.counter.Units;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -82,17 +83,17 @@ public class Rating {
                 break;
         }
 
-        CCH(cdr);
+        CCH(cdr,0);
     }
 
-    public static void CCH(CDR cdr) throws SQLException {
+    public static void CCH(CDR cdr ,int special) throws SQLException {
         Integer discount = SiteDAO.instanceData.getDiscount(cdr.getSource_msisdn());
 
         int OldRate = cdr.getRate();
         int OldDuration = cdr.getDuration();
         float NewRate = 0 , NewDuration = 0;
         if (discount == -1 || discount==0) {
-            RLH(cdr,(int) NewDuration);
+            RLH(cdr,(int) NewDuration,special);
         } else {
             if (OldRate != 0) {
                 System.out.println("in oldrate condition");
@@ -103,12 +104,12 @@ public class Rating {
                 NewDuration = ((float)OldDuration * (1 - ((float)discount / 100)));
             }
             System.out.println("CCH newDuration"+NewDuration+" rating :"+cdr.getRate());
-            RLH(cdr, (int)NewDuration);
+            RLH(cdr, (int)NewDuration,special);
            // System.out.println("CCH newDuration"+NewDuration+" rating :"+cdr.getRate());
         }
     }
 
-    public static void RLH(CDR cdr, Integer nDuration) throws SQLException {
+    public static void RLH(CDR cdr, Integer nDuration,int special) throws SQLException {
         int Service_type = cdr.getService_id();
         int FreeU = SiteDAO.instanceData.getAddFreeUnits(cdr.getSource_msisdn());
         RatePlane currentRatePlan = SiteDAO.instanceData.getRatePlane(cdr.getRatePlan_id()).get(0);
@@ -147,10 +148,21 @@ public class Rating {
                     cdr.setRate(0);
 
                 }
+                if (special !=0 ){
+                    nDuration=special;
+                }
             }
         }else{
-            nDuration=oldDuration;
+            if (cdr.getRate() == 0) {
+                nDuration = oldDuration;
+            }else {
+                if (special !=0 ){
+                    nDuration=special;
+                }
+            }
+
         }
+
         //CHECK IF THE REST OF UNITS IN MAIN BUNDLE
         units =units-nDuration;
         //SET UNITS IN CONTRACT TABLE
