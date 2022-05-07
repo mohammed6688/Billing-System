@@ -244,4 +244,43 @@ public class SiteDAO {
             return null;
         }
     }
+    public List<Integer> getUserMSISDNs(int userID) throws SQLException {
+        stmt = this.con.prepareStatement("select msisdn from bscs.contract where userid = ?");
+        stmt.setInt(1,userID);
+        ResultSet rs = stmt.executeQuery();
+        List<Integer> MSISDNs = new ArrayList<>();
+
+        while(rs.next()){
+            MSISDNs.add(rs.getInt("msisdn"));
+        }
+        return MSISDNs;
+    }
+
+    public int getAddConsumedUnits(int msisdn, int serviceID) throws SQLException{
+        stmt = this.con.prepareStatement("select sum(duration) from rtx.consumption where source_msisdn = ? and service_id= ? and rate != '0';");
+        stmt.setInt(1,msisdn);
+        stmt.setInt(2,serviceID);
+        ResultSet rs = stmt.executeQuery();
+        int totalExtraConsumed = 0;
+
+        while(rs.next())
+        {
+            totalExtraConsumed = rs.getInt("sum");
+        }
+        return totalExtraConsumed;
+    }
+
+    public int getRatedAddUnits(int msisdn, int serviceID) throws SQLException{
+        stmt = this.con.prepareStatement("select sum(rate) from rtx.consumption where source_msisdn = ? and service_id= ?;");
+        stmt.setInt(1,msisdn);
+        stmt.setInt(2,serviceID);
+        ResultSet rs = stmt.executeQuery();
+        int totalRate = 0;
+
+        while(rs.next())
+        {
+            totalRate = rs.getInt("sum");
+        }
+        return totalRate;
+    }
 }
