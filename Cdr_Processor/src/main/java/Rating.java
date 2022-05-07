@@ -173,7 +173,7 @@ public class Rating {
         //CCH(cdr,typeOfVoice);
     }
 
-    public static void CCH(CDR cdr, int overUnits) throws SQLException {
+    public static void CCH(CDR cdr, int special) throws SQLException {
 
         Integer discount = SiteDAO.instanceData.getDiscount(cdr.getSource_msisdn());
 
