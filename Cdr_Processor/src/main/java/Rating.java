@@ -2,7 +2,6 @@ import modules.CDR;
 import modules.Contract;
 import modules.RatePlane;
 import modules.SiteDAO;
-import sun.management.counter.Units;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -46,12 +45,12 @@ public class Rating {
         List<RatePlane> RatePlanes = SiteDAO.instanceData.getRatePlane(cdr.getRatePlan_id());
         Contract contract = SiteDAO.instanceData.getContract(cdr.getSource_msisdn());
 
-        System.out.println(" ==> Blance Under test: " + contract.getCurrent_voice());
 
         if (contract == null) {
-            System.out.println("the contract not found");
+            System.out.println("the contract not found in contract table");
             return;
         }
+        System.out.println(" ==> Blance Under test: " + contract.getCurrent_voice());
 
         if (RatePlanes == null) {
             System.out.println("the ratePlane id is wrong");
