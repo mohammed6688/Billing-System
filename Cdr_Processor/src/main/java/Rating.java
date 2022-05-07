@@ -4,6 +4,7 @@ import modules.RatePlane;
 import modules.SiteDAO;
 
 import java.sql.SQLException;
+import java.util.List;
 
 
 public class Rating {
@@ -40,7 +41,8 @@ public class Rating {
         //2- rate the service (Units based on service) & LE
 
         int overUnits = 0;
-        RatePlane uRatePlane = SiteDAO.instanceData.getRatePlane(cdr.getRatePlan_id()).get(0);
+        RatePlane uRatePlane;
+        List<RatePlane> RatePlanes = SiteDAO.instanceData.getRatePlane(cdr.getRatePlan_id());
         Contract contract = SiteDAO.instanceData.getContract(cdr.getSource_msisdn());
 
         System.out.println(" ==> Blance Under test: " + contract.getCurrent_voice());
@@ -50,9 +52,11 @@ public class Rating {
             return;
         }
 
-        if (uRatePlane == null) {
+        if (RatePlanes == null) {
             System.out.println("the ratePlane id is wrong");
             return;
+        }else {
+            uRatePlane=RatePlanes.get(0);
         }
 
         switch (typeOfService) {

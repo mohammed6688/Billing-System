@@ -87,7 +87,11 @@ public class SiteDAO {
         }
 
         System.out.println("in get rate plane");
-        return ratePlanes;
+        if (ratePlanes.size()!=0){
+            return ratePlanes;
+        }else {
+            return null;
+        }
     }
 
     public void addContract(String national_id, String rateplane, String msisdn) throws SQLException {
