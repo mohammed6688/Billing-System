@@ -2,7 +2,6 @@ import modules.CDR;
 import modules.Contract;
 import modules.RatePlane;
 import modules.SiteDAO;
-import sun.management.counter.Units;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -42,16 +41,17 @@ public class Rating {
         //2- rate the service (Units based on service) & LE
 
         int overUnits = 0;
+        boolean preRated =false;
         RatePlane uRatePlane;
         List<RatePlane> RatePlanes = SiteDAO.instanceData.getRatePlane(cdr.getRatePlan_id());
         Contract contract = SiteDAO.instanceData.getContract(cdr.getSource_msisdn());
 
-        System.out.println(" ==> Blance Under test: " + contract.getCurrent_voice());
 
         if (contract == null) {
-            System.out.println("the contract not found");
+            System.out.println("the contract not found in contract table");
             return;
         }
+        System.out.println(" ==> Blance Under test: " + contract.getCurrent_voice());
 
         if (RatePlanes == null) {
             System.out.println("the ratePlane id is wrong");
@@ -60,6 +60,11 @@ public class Rating {
             uRatePlane=RatePlanes.get(0);
         }
 
+        if (cdr.getRate()!=0){
+            preRated=true;
+            CCH(cdr,overUnits,preRated);
+            return;
+        }
         switch (typeOfService) {
             case "voice":
                 int availableMin = contract.getCurrent_voice();
@@ -80,7 +85,7 @@ public class Rating {
                 }
                 System.out.println(overUnits);
                 System.out.println("(RIH)the rate in onNet is: " + cdr.getRate());
-                CCH(cdr, overUnits);
+                CCH(cdr, overUnits,preRated);
 
                 break;
             case "cross":
@@ -102,7 +107,7 @@ public class Rating {
                     }
                 }
                 System.out.println("(RIH)the rate in crossNet is: " + cdr.getRate());
-                CCH(cdr, overUnits);
+                CCH(cdr, overUnits,preRated);
                 break;
 
             case "data":
@@ -123,7 +128,7 @@ public class Rating {
                     }
                 }
                 System.out.println("(RIH)the rate in data is: " + cdr.getRate());
-                CCH(cdr, overUnits);
+                CCH(cdr, overUnits,preRated);
                 break;
 
             case "sms":
@@ -143,7 +148,7 @@ public class Rating {
                     cdr.setRate(additionalRate);
                 }
                 System.out.println("(RIH)the rate in sms is: " + cdr.getRate());
-                CCH(cdr, overUnits);
+                CCH(cdr, overUnits,preRated);
                 break;
 
             case "roaming":
@@ -163,17 +168,14 @@ public class Rating {
                     cdr.setRate(additionalRate);
                 }
                 System.out.println("(RIH)the rate in roaming is: " + cdr.getRate());
-                CCH(cdr, overUnits);
+                CCH(cdr, overUnits,preRated);
                 break;
             default:
                 break;
         }
-
-
-        //CCH(cdr,typeOfVoice);
     }
 
-    public static void CCH(CDR cdr, int special) throws SQLException {
+    public static void CCH(CDR cdr, int special, boolean preRated) throws SQLException {
 
         Integer discount = SiteDAO.instanceData.getDiscount(cdr.getSource_msisdn());
 
