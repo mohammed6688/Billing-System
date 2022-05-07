@@ -132,11 +132,11 @@ public class Rating {
                 if (restSms > 0 || restSms == 0) { //the user consumed service inside his bundle
                     cdr.setRate(0);
                 } else { //the user exceeded his bundle
-                    int additionalRate;
-                    if (availableSms != 0) { //there is remained sms for that user
+                    int additionalRate=0;
+                    if (availableSms > 0) { //there is remained sms for that user
                         overUnits = availableSms;
                         additionalRate = (smsCount - availableSms) * uRatePlane.getAdditional_sms_service();
-                    } else {  // there is no sms available for that user
+                    } else if (availableSms == 0){  // there is no sms available for that user
                         additionalRate = smsCount * uRatePlane.getAdditional_sms_service();
                     }
                     cdr.setRate(additionalRate);
@@ -152,11 +152,11 @@ public class Rating {
                 if (restRoamingMinutes > 0 || restRoamingMinutes == 0) { //the user consumed service inside his bundle
                     cdr.setRate(0);
                 } else { //the user exceeded his bundle
-                    int additionalRate;
-                    if (availableRoamingMinutes != 0) { //there is remained sms for that user
+                    int additionalRate=0;
+                    if (availableRoamingMinutes > 0) { //there is remained sms for that user
                         overUnits = availableRoamingMinutes;
                         additionalRate = (consumedRoamingMinutes - availableRoamingMinutes) * uRatePlane.getAdditional_roaming_service();
-                    } else {  // there is no sms available for that user
+                    } else if (availableRoamingMinutes == 0){  // there is no sms available for that user
                         additionalRate = consumedRoamingMinutes * uRatePlane.getAdditional_roaming_service();
                     }
                     cdr.setRate(additionalRate);

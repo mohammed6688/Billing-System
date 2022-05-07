@@ -5,9 +5,9 @@ import java.util.List;
 public class Invoice {
     int uid;
     int totalFee;
-    List<contractCons> uContractCons;
+    List<ContractCons> uContractCons;
 
-    public Invoice(int uid, int totalFee, List<contractCons> uContractCons) {
+    public Invoice(int uid, int totalFee, List<ContractCons> uContractCons) {
         this.uid = uid;
         this.totalFee = totalFee;
         this.uContractCons = uContractCons;
@@ -29,11 +29,11 @@ public class Invoice {
         this.totalFee = totalFee;
     }
 
-    public List<contractCons> getuContractCons() {
+    public List<ContractCons> getuContractCons() {
         return uContractCons;
     }
 
-    public void setuContractCons(List<contractCons> uContractCons) {
+    public void setuContractCons(List<ContractCons> uContractCons) {
         this.uContractCons = uContractCons;
     }
 }

@@ -1,11 +1,11 @@
 package modules;
 
-public class contractCons {
+public class ContractCons {
     String msisdn;
     String serviceType;
     int fee;
 
-    public contractCons(String msisdn, String serviceType, int fee) {
+    public ContractCons(String msisdn, String serviceType, int fee) {
         this.msisdn = msisdn;
         this.serviceType = serviceType;
         this.fee = fee;
