@@ -4,7 +4,7 @@ import modules.RatePlane;
 import modules.SiteDAO;
 
 import java.sql.SQLException;
-import java.util.List;
+
 
 public class Rating {
 
@@ -12,17 +12,6 @@ public class Rating {
         //knows the type of the service then pass it to RIH
         String serviceType = "";
 
-        /*
-            voice service = 1
-            sms service = 2
-            data service = 3
-            roaming service = 4
-            voice cross service = 5
-         */
-        /*
-            on_net = 1
-            cross_net = 2
-         */
         if (cdrData.getService_id() == 1) {
             serviceType = "voice";
         } else if (cdrData.getService_id() == 2) {
@@ -33,14 +22,14 @@ public class Rating {
             serviceType = "sms";
         } else if (cdrData.getService_id() == 5) {
             serviceType = "roaming";
-        }else {
+        } else {
             try {
                 throw new Exception("Service Not Exist !!, Check the CDR generator");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
+        System.out.println("Print: " + serviceType);
         RIH(cdrData, serviceType);
     }
 
@@ -50,64 +39,126 @@ public class Rating {
         //1- Check the contract table and check units based on service
         //2- rate the service (Units based on service) & LE
 
-        int overUnits=0;
-        RatePlane uRatePlane =SiteDAO.instanceData.getRatePlane(cdr.getRatePlan_id()).get(0);
+        int overUnits = 0;
+        RatePlane uRatePlane = SiteDAO.instanceData.getRatePlane(cdr.getRatePlan_id()).get(0);
         Contract contract = SiteDAO.instanceData.getContract(cdr.getSource_msisdn());
 
+        System.out.println(" ==> Blance Under test: " + contract.getCurrent_voice());
 
-        if (contract==null){
+        if (contract == null) {
             System.out.println("the contract not found");
             return;
         }
 
-        if (uRatePlane==null){
+        if (uRatePlane == null) {
             System.out.println("the ratePlane id is wrong");
             return;
         }
-        switch (typeOfService){
+
+        switch (typeOfService) {
             case "voice":
+                int availableMin = contract.getCurrent_voice();
+                int consumedMin = cdr.getDuration();
+                int remainder = availableMin - consumedMin;
+                if (remainder > 0 || remainder == 0) {
+                    cdr.setRate(0);
+                } else {
+                    if (availableMin == 0) {
+                        int extraRate = consumedMin * uRatePlane.getAdditional_minutes_service();
+                        cdr.setRate(extraRate);
+                    } else if (availableMin > 0) {
+                        overUnits = availableMin;
+                        int restConsumedMins = consumedMin - availableMin;
+                        int extraRate = restConsumedMins * uRatePlane.getAdditional_minutes_service();
+                        cdr.setRate(extraRate);
+                    }
+                }
+                System.out.println(overUnits);
+                System.out.println("(RIH)the rate in onNet is: " + cdr.getRate());
+                CCH(cdr, overUnits);
+
                 break;
             case "cross":
+                int availableCrossMin = contract.getCurrent_cross_voice();
+                int consumedCrossMin = cdr.getDuration();
+                int crossRemainder = availableCrossMin - consumedCrossMin;
+                if (crossRemainder > 0 || crossRemainder == 0) {
+                    cdr.setRate(0);
+                } else {
+                    if (availableCrossMin == 0) {
+                        int extraRate = consumedCrossMin * uRatePlane.getAdditional_minutes_service();
+                        cdr.setRate(extraRate);
+                    } else if (availableCrossMin > 0) {
+                        System.out.println("===== > balance not eq zero");
+                        overUnits = availableCrossMin;
+                        int restConsumedMins = consumedCrossMin - availableCrossMin;
+                        int extraRate = restConsumedMins * uRatePlane.getAdditional_minutes_service();
+                        cdr.setRate(extraRate);
+                    }
+                }
+                System.out.println("(RIH)the rate in crossNet is: " + cdr.getRate());
+                CCH(cdr, overUnits);
                 break;
+
             case "data":
+                int availableMegaBits = contract.getCurrent_data();
+                int consumedMegaBits = cdr.getDuration();
+                int dataRemainder = availableMegaBits - consumedMegaBits;
+                if (dataRemainder > 0 || dataRemainder == 0) {
+                    cdr.setRate(0);
+                } else {
+                    if (availableMegaBits == 0) {
+                        int extraRate = consumedMegaBits * uRatePlane.getAdditional_data_service();
+                        cdr.setRate(extraRate);
+                    } else if (availableMegaBits > 0) {
+                        overUnits = availableMegaBits;
+                        int restConsumedMBs = consumedMegaBits - availableMegaBits;
+                        int extraRate = restConsumedMBs * uRatePlane.getAdditional_data_service();
+                        cdr.setRate(extraRate);
+                    }
+                }
+                System.out.println("(RIH)the rate in data is: " + cdr.getRate());
+                CCH(cdr, overUnits);
                 break;
+
             case "sms":
                 int smsCount = cdr.getDuration();
                 int availableSms = contract.getCurrent_sms();
                 int restSms = availableSms - smsCount;
-                if (restSms>0 || restSms == 0){ //the user consumed service inside his bundle
+                if (restSms > 0 || restSms == 0) { //the user consumed service inside his bundle
                     cdr.setRate(0);
-                }else { //the user exceeded his bundle
+                } else { //the user exceeded his bundle
                     int additionalRate;
-                    if (availableSms!=0){ //there is remained sms for that user
-                        overUnits=availableSms;
+                    if (availableSms != 0) { //there is remained sms for that user
+                        overUnits = availableSms;
                         additionalRate = (smsCount - availableSms) * uRatePlane.getAdditional_sms_service();
-                    }else {  // there is no sms available for that user
+                    } else {  // there is no sms available for that user
                         additionalRate = smsCount * uRatePlane.getAdditional_sms_service();
                     }
                     cdr.setRate(additionalRate);
                 }
-                System.out.println("(RIH)the rate in sms is: "+cdr.getRate());
-                CCH(cdr,overUnits);
+                System.out.println("(RIH)the rate in sms is: " + cdr.getRate());
+                CCH(cdr, overUnits);
                 break;
+
             case "roaming":
                 int consumedRoamingMinutes = cdr.getDuration();
                 int availableRoamingMinutes = contract.getCurrent_roaming();
                 int restRoamingMinutes = availableRoamingMinutes - consumedRoamingMinutes;
-                if (restRoamingMinutes>0 || restRoamingMinutes == 0){ //the user consumed service inside his bundle
+                if (restRoamingMinutes > 0 || restRoamingMinutes == 0) { //the user consumed service inside his bundle
                     cdr.setRate(0);
-                }else { //the user exceeded his bundle
+                } else { //the user exceeded his bundle
                     int additionalRate;
-                    if (availableRoamingMinutes!=0){ //there is remained sms for that user
-                        overUnits=availableRoamingMinutes;
+                    if (availableRoamingMinutes != 0) { //there is remained sms for that user
+                        overUnits = availableRoamingMinutes;
                         additionalRate = (consumedRoamingMinutes - availableRoamingMinutes) * uRatePlane.getAdditional_roaming_service();
-                    }else {  // there is no sms available for that user
+                    } else {  // there is no sms available for that user
                         additionalRate = consumedRoamingMinutes * uRatePlane.getAdditional_roaming_service();
                     }
                     cdr.setRate(additionalRate);
                 }
-                System.out.println("(RIH)the rate in roaming is: "+cdr.getRate());
-                CCH(cdr,overUnits);
+                System.out.println("(RIH)the rate in roaming is: " + cdr.getRate());
+                CCH(cdr, overUnits);
                 break;
             default:
                 break;
@@ -121,20 +172,20 @@ public class Rating {
 
         int OldRate = cdr.getRate();
         int OldDuration = cdr.getDuration();
-        float NewRate = 0 , NewDuration = 0;
-        if (discount == -1 || discount==0) {
-            RLH(cdr,(int) NewDuration);
+        float NewRate = 0, NewDuration = 0;
+        if (discount == -1 || discount == 0) {
+            RLH(cdr, (int) NewDuration);
         } else {
             if (OldRate != 0) {
                 System.out.println("in oldrate condition");
-                NewRate = ((float) OldRate * (1 - ((float)discount / 100)));
+                NewRate = ((float) OldRate * (1 - ((float) discount / 100)));
                 System.out.println(NewRate);
                 cdr.setRate((int) NewRate);
             } else {
-                NewDuration = ((float)OldDuration * (1 - ((float)discount / 100)));
+                NewDuration = ((float) OldDuration * (1 - ((float) discount / 100)));
             }
-            System.out.println("CCH newDuration"+NewDuration+" rating :"+cdr.getRate());
-            RLH(cdr, (int)NewDuration);
+            System.out.println("CCH newDuration" + NewDuration + " rating :" + cdr.getRate());
+            RLH(cdr, (int) NewDuration);
             // System.out.println("CCH newDuration"+NewDuration+" rating :"+cdr.getRate());
 
         }
@@ -144,13 +195,13 @@ public class Rating {
         int Service_type = cdr.getService_id();
         int FreeU = SiteDAO.instanceData.getAddFreeUnits(cdr.getSource_msisdn());
         RatePlane currentRatePlan = SiteDAO.instanceData.getRatePlane(cdr.getRatePlan_id()).get(0);
-        String str=serviceTypeMapping(Service_type);
-        int units= SiteDAO.instanceData.getUnits(cdr.getSource_msisdn(),str);
+        String str = serviceTypeMapping(Service_type);
+        int units = SiteDAO.instanceData.getUnits(cdr.getSource_msisdn(), str);
         int oldDuration = cdr.getDuration();
         int nFree = 0, price = 0;
         System.out.println(FreeU);
         //CHECK IF THERE IS FREE SP
-        if (FreeU != -1 && FreeU !=0) {
+        if (FreeU != -1 && FreeU != 0) {
             // IF THERE IS FREE UNITS CHECK IF THE CDR IS  RATED OR NOT
             if (cdr.getRate() == 0) {
                 //IF NOT RATED AND NO DISCOUNT ON DURATION THEN DEDUCE THE DURATION
@@ -160,7 +211,7 @@ public class Rating {
                 else {
                     // CALC THE REMIND FREE UNITS TO BE UPDATED IN THE DATABASE
                     nFree = FreeU - nDuration;
-                    nDuration=0;
+                    nDuration = 0;
                 }
 
             } else {
@@ -180,38 +231,40 @@ public class Rating {
 
                 }
             }
-        }else{
-            nDuration=oldDuration;
+        } else {
+            nDuration = oldDuration;
         }
         //CHECK IF THE REST OF UNITS IN MAIN BUNDLE
-        units =units-nDuration;
+        units = units - nDuration;
         //SET UNITS IN CONTRACT TABLE
-        SiteDAO.instanceData.setUnits(cdr.getSource_msisdn(),str,units,nFree);
+        SiteDAO.instanceData.setUnits(cdr.getSource_msisdn(), str, units, nFree);
         //SAVE THE CDR IN THE RTX DB
         SiteDAO.instanceData.setRTX(cdr);
     }
-    private static String serviceTypeMapping(int Service_type){
-        String str =null;
-        switch (Service_type){
+
+    private static String serviceTypeMapping(int Service_type) {
+        String str = null;
+        switch (Service_type) {
             case 1:
-                str="current_voice";
+                str = "current_voice";
                 break;
             case 2:
-                str= "current_cross_voice";
+                str = "current_cross_voice";
                 break;
             case 3:
-                str="current_sms";
+                str = "current_sms";
                 break;
             case 4:
-                str="current_data";
+                str = "current_data";
                 break;
             case 5:
-                str= "current_roaming";
+                str = "current_roaming";
                 break;
         }
         return str;
     }
-    private static int getPrice(RatePlane ratePlane ,int Service_type){
+
+    private static int getPrice(RatePlane ratePlane, int Service_type) {
 
         int price = 0;
         switch (Service_type) {
