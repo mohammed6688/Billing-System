@@ -1,7 +1,7 @@
 package modules;
 public class Bill_Info {
 
-    private int msisdn;
+    private String msisdn;
     private String rateplane;
     private int monthlyFees;
 
@@ -24,11 +24,11 @@ public class Bill_Info {
     private int totalFees;
 
 
-    public int getMsisdn() {
+    public String getMsisdn() {
         return msisdn;
     }
 
-    public void setMsisdn(int msisdn) {
+    public void setMsisdn(String msisdn) {
         this.msisdn = msisdn;
     }
 
