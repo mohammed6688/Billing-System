@@ -1,0 +1,126 @@
+private int msisdn
+select msisdn from bscs.contract where userid = '1';
+
+Voice:
+ 
+private int extraConsumedVoice;
+select sum(duration) 
+from rtx.consumption 
+where source_msisdn = '01147964655' and service_id= '1' and rate != '0';
+
+private int RatedExtraVoice;
+select sum(rate) 
+from rtx.consumption 
+where source_msisdn = '01147964655' and service_id= '1';
+
+Cross Voice
+private int extraConsumedCross
+select sum(duration) 
+from rtx.consumption 
+where source_msisdn = '01147964655' and service_id= '2' and rate != '0';
+
+private int RatedExtraCross
+select sum(rate) 
+from rtx.consumption 
+where source_msisdn = '01147964655' and service_id= '2';
+
+Data
+private int extraConsumedData
+select sum(duration) 
+from rtx.consumption 
+where source_msisdn = '01147964655' and service_id= '3' and rate != '0';
+
+private int RatedExtraData
+select sum(rate) 
+from rtx.consumption 
+where source_msisdn = '01147964655' and service_id= '3';
+
+SMS
+private int extraConsumedSMS;
+select sum(duration) 
+from rtx.consumption 
+where source_msisdn = '01147964655' and service_id= '4' and rate != '0';
+
+private int RatedExtraSMS;
+select sum(rate) 
+from rtx.consumption 
+where source_msisdn = '01147964655' and service_id= '4';
+
+Roaming
+private int extraConsumedRoaming;
+select sum(duration) 
+from rtx.consumption 
+where source_msisdn = '01147964655' and service_id= '5' and rate != '0';
+
+private int RatedExtraRoaming;
+select sum(rate) 
+from rtx.consumption 
+where source_msisdn = '01147964655' and service_id= '5';
+
+
+======================================================
+
+public List<Integer> getUserMSISDNs(int userID) throws SQLException {
+       stmt = this.con.prepareStatement("select msisdn from bscs.contract where userid = ?");
+       stmt.setInt(1,userID);
+       ResultSet rs = stmt.executeQuery();
+       List<Integer> MSISDNs = new ArrayList<>();
+
+       while(rs.next()){
+           MSISDNs.add(rs.getInt("msisdn"));
+       }
+       return MSISDNs;
+    }
+
+    public int getAddConsumedUnits(int msisdn, int serviceID) throws SQLException{
+        stmt = this.con.prepareStatement("select sum(duration) from rtx.consumption where source_msisdn = ? and service_id= ? and rate != '0';");
+        stmt.setInt(1,msisdn);
+        stmt.setInt(2,serviceID);
+        ResultSet rs = stmt.executeQuery();
+        int totalExtraConsumed = 0;
+
+        while(rs.next())
+        {
+            totalExtraConsumed = rs.getInt("sum");
+        }
+        return totalExtraConsumed;
+    }
+
+    public int getRatedAddUnits(int msisdn, int serviceID) throws SQLException{
+        stmt = this.con.prepareStatement("select sum(rate) from rtx.consumption where source_msisdn = ? and service_id= ?;");
+        stmt.setInt(1,msisdn);
+        stmt.setInt(2,serviceID);
+        ResultSet rs = stmt.executeQuery();
+        int totalRate = 0;
+
+        while(rs.next())
+        {
+            totalRate = rs.getInt("sum");
+        }
+        return totalRate;
+    }
+
+private String userName;
+    private String month;
+    private int msisdn;
+    private String rateplane;
+
+    private int consumedVoice;
+    private int extraConsumedVoice;
+    private int RatedExtraVoice;
+
+    private int consumedCross;
+    private int extraConsumedCross;
+    private int RatedExtraCross;
+
+    private int consumedData;
+    private int extraConsumedData;
+    private int RatedExtraData;
+
+    private int consumedSMS;
+    private int extraConsumedSMS;
+    private int RatedExtraSMS;
+
+    private int consumedRoaming;
+    private int extraConsumedRoaming;
+    private int RatedExtraRoaming;
