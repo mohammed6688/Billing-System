@@ -34,10 +34,10 @@ public class Main {
     private static void connectToDB() {
         String DB_NAME = "Billing";
         String USER = "postgres";
-        String PASS = "1502654";
+  //      String PASS = "1502654";
         //String PASS = "0000";    //omar pass
 //        String PASS = "1502654";    //ayman pass
-//        String PASS = "1502654";    //abdo pass
+        String PASS = "0000";    //abdo pass
         try {
             Class.forName("org.postgresql.Driver").newInstance();
             new SiteDAO(DB_NAME,USER,PASS);

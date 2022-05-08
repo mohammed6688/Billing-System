@@ -182,7 +182,7 @@ public class Rating {
 
         float NewRate = 0 , NewDuration = 0;
         if (discount == -1 || discount==0) {
-            RLH(cdr,(int) NewDuration,special);
+            RLH(cdr,(int) NewDuration,overUnits);
         } else {
             if (OldRate != 0) {
                 System.out.println("in oldrate condition");
@@ -194,7 +194,7 @@ public class Rating {
             }
 
             System.out.println("CCH newDuration"+NewDuration+" rating :"+cdr.getRate());
-            RLH(cdr, (int)NewDuration,special);
+            RLH(cdr, (int)NewDuration,overUnits);
            // System.out.println("CCH newDuration"+NewDuration+" rating :"+cdr.getRate());
         }
     }
