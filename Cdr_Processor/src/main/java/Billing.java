@@ -1,14 +1,17 @@
 import modules.Bill_Info;
 import modules.ContractCons;
 import modules.SiteDAO;
+import modules.Users;
+import net.sf.jasperreports.engine.JRException;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Billing {
 
-    public static Bill_Info billCycle(int msisdn) throws SQLException {
+    public static Bill_Info billCycle(String msisdn) throws SQLException {
         Bill_Info contractBill = new Bill_Info();
         //Apply Bill Cycle Queries to retrieve required Data
         ContractCons cont = SiteDAO.instanceData.getUserRatePlaneInfo(msisdn);
@@ -58,22 +61,26 @@ public class Billing {
         return contractBill;
     }
 
-    public static List<Bill_Info> generateBillsForUser(int NID) throws SQLException{
+    public static List<Bill_Info> generateBillsForUser(int NID) throws SQLException, JRException, FileNotFoundException {
 
         List<Bill_Info> numbersBills = new ArrayList<>();
-        List<Integer> userNumbers = SiteDAO.instanceData.getUserMSISDNs(NID);
-        for (int num: userNumbers) {
+        List<String> userNumbers = SiteDAO.instanceData.getUserMSISDNs(NID);
+        for (String num: userNumbers) {
             System.out.println(num);
         }
 
-        for (Integer msisdn: userNumbers) {
+        for (String msisdn: userNumbers) {
             numbersBills.add(Billing.billCycle(msisdn));
         }
+
+
+//        Users user=SiteDAO.instanceData.getUser(NID);
+//        InvoiceGenerator.generate(numbersBills,user);
 
         return numbersBills;
     }
 
-    public static void main(String[] args) throws SQLException{
+    public static void main(String[] args) throws SQLException, JRException, FileNotFoundException {
         SiteDAO.connectToDB();
         Billing.generateBillsForUser(1);
     }

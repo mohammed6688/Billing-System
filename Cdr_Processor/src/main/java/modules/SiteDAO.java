@@ -248,21 +248,21 @@ public class SiteDAO {
             return null;
         }
     }
-    public List<Integer> getUserMSISDNs(int userID) throws SQLException {
+    public List<String> getUserMSISDNs(int userID) throws SQLException {
         stmt = this.con.prepareStatement("select msisdn from bscs.contract where userid = ?");
         stmt.setInt(1,userID);
         ResultSet rs = stmt.executeQuery();
-        List<Integer> MSISDNs = new ArrayList<>();
+        List<String> MSISDNs = new ArrayList<>();
 
         while(rs.next()){
-            MSISDNs.add(rs.getInt("msisdn"));
+            MSISDNs.add(rs.getString("msisdn"));
         }
         return MSISDNs;
     }
 
-    public int getAddConsumedUnits(int msisdn, int serviceID) throws SQLException{
+    public int getAddConsumedUnits(String msisdn, int serviceID) throws SQLException{
         stmt = this.con.prepareStatement("select sum(duration) from rtx.consumption where source_msisdn = ? and service_id= ? and rate != '0';");
-        stmt.setString(1,Integer.toString(msisdn));
+        stmt.setString(1,msisdn);
         stmt.setInt(2,serviceID);
         ResultSet rs = stmt.executeQuery();
         int totalExtraConsumed = 0;
@@ -274,9 +274,9 @@ public class SiteDAO {
         return totalExtraConsumed;
     }
 
-    public int getRatedAddUnits(int msisdn, int serviceID) throws SQLException{
+    public int getRatedAddUnits(String msisdn, int serviceID) throws SQLException{
         stmt = this.con.prepareStatement("select sum(rate) from rtx.consumption where source_msisdn = ? and service_id= ?;");
-        stmt.setString(1,Integer.toString(msisdn));
+        stmt.setString(1,msisdn);
         stmt.setInt(2,serviceID);
         ResultSet rs = stmt.executeQuery();
         int totalRate = 0;
@@ -288,9 +288,9 @@ public class SiteDAO {
         return totalRate;
     }
 
-    public ContractCons getUserRatePlaneInfo(int msisdn)throws SQLException{
+    public ContractCons getUserRatePlaneInfo(String msisdn)throws SQLException{
         stmt= this.con.prepareStatement("select r.commercial_name,r.fee from bscs.contract as c  join bscs.rateplanes as r on c.rateplane_id = r.id where c.msisdn = ?");
-        stmt.setString(1,Integer.toString(msisdn));
+        stmt.setString(1,msisdn);
         ResultSet rs = stmt.executeQuery();
         ContractCons cont = new ContractCons();
         while(rs.next()){
@@ -303,8 +303,8 @@ public class SiteDAO {
     public static void connectToDB() {
         String DB_NAME = "Billing";
         String USER = "postgres";
-        //String PASS = "1502654";
-        String PASS = "0000";    //omar pass
+        String PASS = "1502654";
+        //String PASS = "0000";    //omar pass
 //        String PASS = "1502654";    //ayman pass
 //        String PASS = "1502654";    //abdo pass
         try {
@@ -315,5 +315,22 @@ public class SiteDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Users getUser(int nid) throws SQLException {
+        stmt = this.con.prepareStatement("select * from bscs.users where national_id = ?");
+        stmt.setInt(1,nid);
+        ResultSet rs = stmt.executeQuery();
+        List<Users> users = new ArrayList<>();
+
+        while (rs.next()) {
+            users.add(new Users(
+                    rs.getInt("national_id"),
+                    rs.getString("u_name"),
+                    rs.getInt("age"),
+                    rs.getString("address")
+            ));
+        }
+        return users.get(0);
     }
 }

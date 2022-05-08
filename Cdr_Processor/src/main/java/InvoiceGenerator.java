@@ -1,3 +1,4 @@
+import modules.Bill_Info;
 import modules.Users;
 import modules.ContractCons;
 import net.sf.jasperreports.engine.*;
@@ -15,18 +16,16 @@ public class InvoiceGenerator {
     static final String fileName = "src/main/resources/JasperDesign.jrxml";
     static final String outFile = "src/main/resources/Reports.pdf";
 
-    public static void generate(List<ContractCons> invoice, Users user, int ratePlaneFee) throws FileNotFoundException, JRException {
+    public static void generate(List<Bill_Info> invoice, Users user) throws FileNotFoundException, JRException {
         Map<String, Object> parameter  = new HashMap<String, Object>();
 
         JRBeanCollectionDataSource userCollectionDataSource =
                 new JRBeanCollectionDataSource(invoice);
-        int totalFee = TotalFeeHelper(invoice,ratePlaneFee);
         parameter.put("studentDataSource", userCollectionDataSource);
         parameter.put("uname", user.getU_name());
         parameter.put("id", user.getNational_id());
         parameter.put("address", user.getAddress());
         parameter.put("title", "Monthly Invoice");
-        parameter.put("totalFee", totalFee);
 
         JasperReport jasperDesign = JasperCompileManager.compileReport(fileName);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperDesign, parameter,
