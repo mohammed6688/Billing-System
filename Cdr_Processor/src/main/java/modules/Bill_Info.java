@@ -1,38 +1,28 @@
 package modules;
 public class Bill_Info {
 
-    private String userName;
-    private String month;
     private int msisdn;
     private String rateplane;
+    private int monthlyFees;
 
-    private int consumedVoice;
-    private int extraConsumedVoice;
-    private int RatedExtraVoice;
-
-    private int consumedCross;
     private int extraConsumedCross;
     private int RatedExtraCross;
 
-    private int consumedData;
+    private int extraConsumedVoice;
+    private int RatedExtraVoice;
+
     private int extraConsumedData;
     private int RatedExtraData;
 
-    private int consumedSMS;
     private int extraConsumedSMS;
     private int RatedExtraSMS;
 
-    private int consumedRoaming;
     private int extraConsumedRoaming;
     private int RatedExtraRoaming;
 
-    public String getMonth() {
-        return month;
-    }
+    private int extraFees;
+    private int totalFees;
 
-    public void setMonth(String month) {
-        this.month = month;
-    }
 
     public int getMsisdn() {
         return msisdn;
@@ -50,12 +40,12 @@ public class Bill_Info {
         this.rateplane = rateplane;
     }
 
-    public int getConsumedVoice() {
-        return consumedVoice;
+    public int getMonthlyFees() {
+        return monthlyFees;
     }
 
-    public void setConsumedVoice(int consumedVoice) {
-        this.consumedVoice = consumedVoice;
+    public void setMonthlyFees(int monthlyFees) {
+        this.monthlyFees = monthlyFees;
     }
 
     public int getExtraConsumedVoice() {
@@ -74,14 +64,6 @@ public class Bill_Info {
         RatedExtraVoice = ratedExtraVoice;
     }
 
-    public int getConsumedCross() {
-        return consumedCross;
-    }
-
-    public void setConsumedCross(int consumedCross) {
-        this.consumedCross = consumedCross;
-    }
-
     public int getExtraConsumedCross() {
         return extraConsumedCross;
     }
@@ -96,14 +78,6 @@ public class Bill_Info {
 
     public void setRatedExtraCross(int ratedExtraCross) {
         RatedExtraCross = ratedExtraCross;
-    }
-
-    public int getConsumedData() {
-        return consumedData;
-    }
-
-    public void setConsumedData(int consumedData) {
-        this.consumedData = consumedData;
     }
 
     public int getExtraConsumedData() {
@@ -122,14 +96,6 @@ public class Bill_Info {
         RatedExtraData = ratedExtraData;
     }
 
-    public int getConsumedSMS() {
-        return consumedSMS;
-    }
-
-    public void setConsumedSMS(int consumedSMS) {
-        this.consumedSMS = consumedSMS;
-    }
-
     public int getExtraConsumedSMS() {
         return extraConsumedSMS;
     }
@@ -146,13 +112,6 @@ public class Bill_Info {
         RatedExtraSMS = ratedExtraSMS;
     }
 
-    public int getConsumedRoaming() {
-        return consumedRoaming;
-    }
-
-    public void setConsumedRoaming(int consumedRoaming) {
-        this.consumedRoaming = consumedRoaming;
-    }
 
     public int getExtraConsumedRoaming() {
         return extraConsumedRoaming;
@@ -170,12 +129,19 @@ public class Bill_Info {
         RatedExtraRoaming = ratedExtraRoaming;
     }
 
-    public String getUserName() {
-        return userName;
+    public int getTotalFees() {
+        return totalFees;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setTotalFees(int totalFees) {
+        this.totalFees = totalFees;
     }
 
+    public int getExtraFees() {
+        return extraFees;
+    }
+
+    public void setExtraFees(int extraFees) {
+        this.extraFees = extraFees;
+    }
 }

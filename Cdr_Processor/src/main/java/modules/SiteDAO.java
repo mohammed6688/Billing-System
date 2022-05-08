@@ -87,7 +87,11 @@ public class SiteDAO {
         }
 
         System.out.println("in get rate plane");
-        return ratePlanes;
+        if (ratePlanes.size()!=0){
+            return ratePlanes;
+        }else {
+            return null;
+        }
     }
 
     public void addContract(String national_id, String rateplane, String msisdn) throws SQLException {
@@ -258,7 +262,7 @@ public class SiteDAO {
 
     public int getAddConsumedUnits(int msisdn, int serviceID) throws SQLException{
         stmt = this.con.prepareStatement("select sum(duration) from rtx.consumption where source_msisdn = ? and service_id= ? and rate != '0';");
-        stmt.setInt(1,msisdn);
+        stmt.setString(1,Integer.toString(msisdn));
         stmt.setInt(2,serviceID);
         ResultSet rs = stmt.executeQuery();
         int totalExtraConsumed = 0;
@@ -272,7 +276,7 @@ public class SiteDAO {
 
     public int getRatedAddUnits(int msisdn, int serviceID) throws SQLException{
         stmt = this.con.prepareStatement("select sum(rate) from rtx.consumption where source_msisdn = ? and service_id= ?;");
-        stmt.setInt(1,msisdn);
+        stmt.setString(1,Integer.toString(msisdn));
         stmt.setInt(2,serviceID);
         ResultSet rs = stmt.executeQuery();
         int totalRate = 0;
@@ -282,5 +286,34 @@ public class SiteDAO {
             totalRate = rs.getInt("sum");
         }
         return totalRate;
+    }
+
+    public ContractCons getUserRatePlaneInfo(int msisdn)throws SQLException{
+        stmt= this.con.prepareStatement("select r.commercial_name,r.fee from bscs.contract as c  join bscs.rateplanes as r on c.rateplane_id = r.id where c.msisdn = ?");
+        stmt.setString(1,Integer.toString(msisdn));
+        ResultSet rs = stmt.executeQuery();
+        ContractCons cont = new ContractCons();
+        while(rs.next()){
+            cont.setRateplaneName(rs.getString("commercial_name"));
+            cont.setFee(rs.getInt("fee"));
+        }
+        return cont;
+    }
+
+    public static void connectToDB() {
+        String DB_NAME = "Billing";
+        String USER = "postgres";
+        //String PASS = "1502654";
+        String PASS = "0000";    //omar pass
+//        String PASS = "1502654";    //ayman pass
+//        String PASS = "1502654";    //abdo pass
+        try {
+            Class.forName("org.postgresql.Driver").newInstance();
+            new SiteDAO(DB_NAME,USER,PASS);
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+            System.out.println("database connection error "+ e);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
