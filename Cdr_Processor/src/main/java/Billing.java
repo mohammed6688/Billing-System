@@ -73,7 +73,7 @@ public class Billing {
             numbersBills.add(Billing.billCycle(msisdn));
         }
 
-        System.out.println(numbersBills.get(0).getRatedExtraCross());
+        //System.out.println(numbersBills.get(0).getRatedExtraCross());
         Users user=SiteDAO.instanceData.getUser(NID);
         String fileName = "Reports_"+NID+".pdf";
         InvoiceGenerator.generate(numbersBills,user,fileName);
@@ -81,8 +81,17 @@ public class Billing {
         return numbersBills;
     }
 
+    public static void generateUsersBills () throws SQLException,JRException, FileNotFoundException {
+        List<Users> users = SiteDAO.instanceData.getUsers();
+        for (Users us :users)
+        {
+            Billing.generateBillsForUser(us.getNational_id());
+        }
+
+    }
+
     public static void main(String[] args) throws SQLException, JRException, FileNotFoundException {
         SiteDAO.connectToDB();
-        Billing.generateBillsForUser(1);
+        Billing.generateUsersBills();
     }
 }
