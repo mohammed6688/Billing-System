@@ -40,16 +40,20 @@
                         <label class="form-check-label" for="cross_voice">Cross Voice</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" id="data" type="radio" name="rb" value="data" checked="">
+                        <input class="form-check-input" id="data" type="radio" name="rb" value="data" >
                         <label class="form-check-label" for="data">Data</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" id="sms" type="radio" name="rb" value="sms" checked="">
+                        <input class="form-check-input" id="sms" type="radio" name="rb" value="sms" >
                         <label class="form-check-label" for="sms">Sms</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" id="roaming" type="radio" name="rb" value="roaming" checked="">
+                        <input class="form-check-input" id="roaming" type="radio" name="rb" value="roaming">
                         <label class="form-check-label" for="roaming">Roaming</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" id="free" type="radio" name="rb" value="free">
+                        <label class="form-check-label" for="free">Free Units</label>
                     </div>
 
                     <%

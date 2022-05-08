@@ -10,6 +10,7 @@ public class SiteDAO {
     public static SiteDAO instanceData;
     PreparedStatement stmt;
     Statement NStmt;
+
     public SiteDAO(String dbname, String user, String pass) throws SQLException {
         this.connect(dbname, user, pass);
     }
@@ -86,7 +87,11 @@ public class SiteDAO {
         }
 
         System.out.println("in get rate plane");
-        return ratePlanes;
+        if (ratePlanes.size()!=0){
+            return ratePlanes;
+        }else {
+            return null;
+        }
     }
 
     public void addContract(String national_id, String rateplane, String msisdn) throws SQLException {
@@ -155,42 +160,44 @@ public class SiteDAO {
         }
         return null;
     }
- public int getUnits(String msisdn, String str) throws SQLException {
-        System.out.println(str);
-    // stmt = this.con.prepareStatement("select current_voice from bscs.contract  where msisdn = ? ");
-     String SQL = "select "+str+" from bscs.contract  where msisdn ='"+msisdn+"' ;";
 
-     ResultSet rs = NStmt.executeQuery(SQL);
-   //  stmt.setString(1,str);
+    public int getUnits(String msisdn, String str) throws SQLException {
+        System.out.println(str);
+        // stmt = this.con.prepareStatement("select current_voice from bscs.contract  where msisdn = ? ");
+        String SQL = "select "+str+" from bscs.contract  where msisdn ='"+msisdn+"' ;";
+
+        ResultSet rs = NStmt.executeQuery(SQL);
+        //  stmt.setString(1,str);
 //     stmt.setString(1,msisdn);
 //     stmt.setc
- //    ResultSet rs = stmt.executeQuery();
+        //    ResultSet rs = stmt.executeQuery();
 
-     while (rs.next()) {
+        while (rs.next()) {
 
-         return rs.getInt(str);
-     }
-     return -1;
- }
- public void setUnits(String msisdn,String str,int nduration,int nfree) throws SQLException {
+            return rs.getInt(str);
+        }
+        return -1;
+    }
+    public void setUnits(String msisdn,String str,int nduration,int nfree) throws SQLException {
 //     stmt = this.con.prepareStatement("update bscs.contracts SET ?=?,current_additional_sp=? where msisdn=?");
 //     stmt.setString(1,str);
 //     stmt.setInt(2, nduration);
 //     stmt.setInt(3,nfree);
 //     stmt.setString(4, msisdn);
 
-     NStmt.executeUpdate("update bscs.contract SET "+str+" = "+nduration+",current_additional_sp= "+nfree+"  where msisdn ='"+msisdn+"' ;");
-   //  stmt.executeUpdate();
-     ResultSet rs = NStmt.getGeneratedKeys();
+        NStmt.executeUpdate("update bscs.contract SET "+str+" = "+nduration+",current_additional_sp= "+nfree+"  where msisdn ='"+msisdn+"' ;");
+        //  stmt.executeUpdate();
+        ResultSet rs = NStmt.getGeneratedKeys();
 
-     System.out.println(rs);
-     if (rs != null) {
-         System.out.println("Rating added");
+        System.out.println(rs);
+        if (rs != null) {
+            System.out.println("Rating added");
+
 //            return 1;
-     } else {
+        } else {
 //            return -1;
-     }
- }
+        }
+    }
     public void setRTX(CDR cdr) throws SQLException {
         stmt = this.con.prepareStatement("insert into rtx.consumption (source_msisdn,terminated_msisdn,time_stamp," +
                 "duration,rate,service_id,rateplane_id) values(?,?,?,?,?,?,?)");
@@ -213,4 +220,32 @@ public class SiteDAO {
         }
     }
 
+    public Contract getContract(String source_msisdn) throws SQLException {
+        stmt = this.con.prepareStatement("select * from bscs.contract where msisdn = ?");
+        stmt.setString(1,source_msisdn);
+        ResultSet rs = stmt.executeQuery();
+        List<Contract> contract = new ArrayList<>();
+
+        while (rs.next()) {
+            contract.add(new Contract(
+                    rs.getInt("contract_id"),
+                    rs.getInt("msisdn"),
+                    rs.getInt("rateplane_id"),
+                    rs.getInt("userid"),
+                    rs.getInt("additional_sp"),
+                    rs.getInt("current_voice"),
+                    rs.getInt("current_cross_voice"),
+                    rs.getInt("current_data"),
+                    rs.getInt("current_sms"),
+                    rs.getInt("current_roaming"),
+                    rs.getInt("discount"),
+                    rs.getInt("current_additional_sp")
+            ));
+        }
+        if (contract.size()!=0){
+            return contract.get(0);
+        }else {
+            return null;
+        }
+    }
 }

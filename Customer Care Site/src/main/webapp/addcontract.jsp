@@ -3,6 +3,7 @@
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="com.example.customer_care_app.modules.RatePlane" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.example.customer_care_app.modules.ServicePackage" %>
 
 <%@include file="/header.html" %>
 <%
@@ -13,8 +14,10 @@
         String national_id = request.getParameter("national_id");
         String rateplane = request.getParameter("rateplane");
         String msisdn = request.getParameter("msisdn");
+        String freeunits = request.getParameter("freeunits");
+        String discount = request.getParameter("discount");
         try {
-            val = SiteDAO.instanceData.addContract(national_id,rateplane,msisdn);
+            val = SiteDAO.instanceData.addContract(national_id,rateplane,msisdn,discount,freeunits);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -41,16 +44,41 @@
                         <div class="valid-feedback">Looks good!</div>
                     </div>
 
+                    <div class="col-md-4"><label class="form-label" for="validationCustom04">Discount</label> <input
+                            name="discount" value="0" class="form-control" id="validationCustom04" required="">
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+
                     <div class="col-md-4"><label class="form-label">Rate Plane</label>
                         <select name="rateplane" class="form-select" aria-label="Default select example">
                             <option selected="">Choose rate plane</option>
                             <%
                                 List<RatePlane> ratePlanes = null;
                                 try {
-                                    ratePlanes = SiteDAO.instanceData.getRatePlane();
+                                    ratePlanes = SiteDAO.instanceData.getRatePlanes();
                                     for (RatePlane ratePlane: ratePlanes){
                             %>
                             <option value="<%=ratePlane.getId()%>"><%=ratePlane.getCommercial_name()%></option>
+                            <%
+                                    }
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            %>
+                        </select>
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+
+                    <div class="col-md-4"><label class="form-label">Free Units</label>
+                        <select name="freeunits" class="form-select" aria-label="Default select example">
+                            <option selected="">Choose free unit</option>
+                            <%
+                                List<ServicePackage> freeUnits = null;
+                                try {
+                                    freeUnits = SiteDAO.instanceData.getFreeUnits();
+                                    for (ServicePackage freeUnit: freeUnits){
+                            %>
+                            <option value="<%=freeUnit.getId()%>"><%=freeUnit.getUnits()%> Minutes</option>
                             <%
                                     }
                                 } catch (SQLException e) {
