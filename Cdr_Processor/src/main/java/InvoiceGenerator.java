@@ -14,9 +14,9 @@ import java.util.Map;
 
 public class InvoiceGenerator {
     static final String fileName = "src/main/resources/JasperDesign.jrxml";
-    static final String outFile = "src/main/resources/Reports.pdf";
+    static final String outFile = "src/main/resources/Bills/";
 
-    public static void generate(List<Bill_Info> invoice, Users user) throws FileNotFoundException, JRException {
+    public static void generate(List<Bill_Info> invoice, Users user, String path) throws FileNotFoundException, JRException {
         Map<String, Object> parameter  = new HashMap<String, Object>();
 
         JRBeanCollectionDataSource userCollectionDataSource =
@@ -33,7 +33,7 @@ public class InvoiceGenerator {
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperDesign, parameter,
                 new JREmptyDataSource());
 
-        File file = new File(outFile);
+        File file = new File(outFile+path);
         OutputStream outputSteam = new FileOutputStream(file);
         JasperExportManager.exportReportToPdfStream(jasperPrint, outputSteam);
 

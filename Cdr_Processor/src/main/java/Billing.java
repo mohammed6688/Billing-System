@@ -75,7 +75,8 @@ public class Billing {
 
         System.out.println(numbersBills.get(0).getRatedExtraCross());
         Users user=SiteDAO.instanceData.getUser(NID);
-        InvoiceGenerator.generate(numbersBills,user);
+        String fileName = "Reports_"+NID+".pdf";
+        InvoiceGenerator.generate(numbersBills,user,fileName);
 
         return numbersBills;
     }
