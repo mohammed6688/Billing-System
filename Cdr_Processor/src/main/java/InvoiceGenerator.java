@@ -21,11 +21,13 @@ public class InvoiceGenerator {
 
         JRBeanCollectionDataSource userCollectionDataSource =
                 new JRBeanCollectionDataSource(invoice);
+        int total =TotalFeeHelper(invoice);
         parameter.put("studentDataSource", userCollectionDataSource);
         parameter.put("uname", user.getU_name());
         parameter.put("id", user.getNational_id());
         parameter.put("address", user.getAddress());
         parameter.put("title", "Monthly Invoice");
+        parameter.put("totalFee", total);
 
         JasperReport jasperDesign = JasperCompileManager.compileReport(fileName);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperDesign, parameter,
@@ -38,13 +40,11 @@ public class InvoiceGenerator {
         System.out.println("Report Generated!");
     }
 
-    private static int TotalFeeHelper(List<ContractCons> invoice, int ratePlaneFee) {
-        int totalContractFee=0;
-        int totalFee;
-        for (ContractCons contractCons:invoice){
-            totalContractFee+=contractCons.getFee();
+    private static int TotalFeeHelper(List<Bill_Info> invoice) {
+        int totalFee=0;
+        for (Bill_Info contractCons:invoice){
+            totalFee+=contractCons.getTotalFees();
         }
-        totalFee=ratePlaneFee+totalContractFee;
         return totalFee;
     }
 }

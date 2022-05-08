@@ -73,9 +73,9 @@ public class Billing {
             numbersBills.add(Billing.billCycle(msisdn));
         }
 
-
-//        Users user=SiteDAO.instanceData.getUser(NID);
-//        InvoiceGenerator.generate(numbersBills,user);
+        System.out.println(numbersBills.get(0).getRatedExtraCross());
+        Users user=SiteDAO.instanceData.getUser(NID);
+        InvoiceGenerator.generate(numbersBills,user);
 
         return numbersBills;
     }

@@ -34,8 +34,15 @@
 			<![CDATA[]]>
 		</queryString>
 		<field name="msisdn" class="java.lang.String"/>
-		<field name="serviceType" class="java.lang.String"/>
-		<field name="fee" class="java.lang.Integer"/>
+		<field name="rateplane" class="java.lang.String"/>
+		<field name="monthlyFees" class="java.lang.Integer"/>
+		<field name="extraConsumedCross" class="java.lang.Integer"/>
+		<field name="extraConsumedVoice" class="java.lang.Integer"/>
+		<field name="extraConsumedData" class="java.lang.Integer"/>
+		<field name="extraConsumedSMS" class="java.lang.Integer"/>
+		<field name="extraConsumedRoaming" class="java.lang.Integer"/>
+		<field name="extraFees" class="java.lang.Integer"/>
+		<field name="totalFees" class="java.lang.Integer"/>
 	</subDataset>
 	<parameter name="title" class="java.lang.String"/>
 	<parameter name="studentDataSource" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
@@ -105,7 +112,7 @@
 	<detail>
 		<band height="404" splitType="Stretch">
 			<componentElement>
-				<reportElement x="0" y="0" width="560" height="330" uuid="344b5369-5ea0-4a33-8bd5-9a066bb7a40c">
+				<reportElement x="0" y="0" width="560" height="404" uuid="bc46ed0b-d3d3-4cad-9be6-5199ba97178c">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
@@ -113,54 +120,91 @@
 					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="StudentDataset" uuid="65db8c6c-767a-47e1-a224-39061f737728">
+					<datasetRun subDataset="StudentDataset" uuid="343d03c5-4c76-47f8-9e08-c063611488c7">
 						<dataSourceExpression><![CDATA[$P{studentDataSource}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="187" uuid="03fd5157-c263-4be0-8284-accfcdbc2f6b">
+					<jr:column width="112" uuid="ad109a0c-7582-4f6c-9783-5014ee8c5c86">
+						<jr:tableHeader style="Table_TH" height="30"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
-								<reportElement x="0" y="0" width="187" height="30" uuid="d665ced6-67f5-41ea-85ec-74884c5a298e"/>
+								<reportElement x="0" y="0" width="112" height="30" uuid="ed3b01b7-6e5e-4531-a4e3-4a2a7a8bc392"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<text><![CDATA[Msisdn]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="187" height="30" uuid="389c8edb-fe6d-49bd-bd2f-4e91addd07ed"/>
+								<reportElement x="0" y="0" width="112" height="30" uuid="99114151-f416-48f0-b831-699596339ea0"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[ $F{msisdn}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{msisdn}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="187" uuid="2f7b0cce-b7a1-4404-8db4-bf9d34403a3a">
+					<jr:column width="112" uuid="72f6e69c-bfe7-4b22-9258-6bb98f02a682">
+						<jr:tableHeader style="Table_TH" height="30"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
-								<reportElement x="0" y="0" width="187" height="30" uuid="ca9df74c-648d-41bb-917b-d26ce551601b"/>
+								<reportElement x="0" y="0" width="112" height="30" uuid="5c07b5c6-f512-42ae-8dfa-5576da1dae06"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<text><![CDATA[Service Type]]></text>
+								<text><![CDATA[Rate plane]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="187" height="30" uuid="b3669d22-ee9a-4000-8df5-a32a63007337"/>
+								<reportElement x="0" y="0" width="112" height="30" uuid="4e8229e9-ab4e-4f48-b8d7-1239b16a91e0"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{serviceType}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{rateplane}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="186" uuid="91fe44fc-7b7c-4093-a8aa-1d45f8e62719">
+					<jr:column width="112" uuid="c7c1662c-78aa-4762-9fac-9bf38c3e520b">
+						<jr:tableHeader style="Table_TH" height="30"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
-								<reportElement x="0" y="0" width="186" height="30" uuid="666766f7-3d86-449c-8fa3-9d452a0dedfd"/>
+								<reportElement x="0" y="0" width="112" height="30" uuid="a0951e25-52f4-41dd-af21-44f98b508833"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<text><![CDATA[Fee]]></text>
+								<text><![CDATA[Monthly Fees]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="186" height="30" uuid="f3f8c791-58a4-46e1-aa85-dba49f52e268"/>
+								<reportElement x="0" y="0" width="112" height="30" uuid="375da84a-74b4-4a03-80bf-71d3876b51d1"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{fee}+" LE"]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{monthlyFees}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="112" uuid="24a601a3-47da-4107-8272-e7f5e55f3c8b">
+						<jr:tableHeader style="Table_TH" height="30"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="112" height="30" uuid="58e20920-3086-4691-95ff-eead7a3da99c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Extra Fees]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="112" height="30" uuid="4c96158d-3ea5-4841-bfb1-2511845fa290"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{extraFees}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="112" uuid="7352f1ad-ea5f-4d63-a98f-e8115c5ec930">
+						<jr:tableHeader style="Table_TH" height="30"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="112" height="30" uuid="f2eb4071-53ad-4969-94ca-6758c825a85c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Total Fees]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="112" height="30" uuid="3238df95-dca4-4770-87cb-78ba3c8aa57a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{totalFees}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
