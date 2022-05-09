@@ -30,8 +30,7 @@ public class InvoiceGenerator {
         parameter.put("totalFee", total);
 
         JasperReport jasperDesign = JasperCompileManager.compileReport(fileName);
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperDesign, parameter,
-                new JREmptyDataSource());
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperDesign, parameter,new JREmptyDataSource());
 
         File file = new File(outFile+path);
         OutputStream outputSteam = new FileOutputStream(file);
