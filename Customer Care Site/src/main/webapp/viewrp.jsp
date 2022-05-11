@@ -9,13 +9,6 @@
 <%@include file="/header.html" %>
 <%
     try {
-        String id = request.getParameter("id");
-        int res = 0;
-        if (id != null) {
-            System.out.println("id is: "+id);
-            res = SiteDAO.instanceData.deleteRatePlane(id);
-            System.out.println("respond is: "+res);
-        }
         List<RatePlane> ratePlanes = SiteDAO.instanceData.getRatePlanes();
 %>
 <div class="content pt-5">
@@ -28,7 +21,7 @@
                 <form action="viewrp.jsp" class="row g-3" novalidate="">
 
                     <div id="tableExample2"
-                         data-list="{&quot;valueNames&quot;:[&quot;id&quot;,&quot;commercial_name&quot;,&quot;voice_service&quot;,&quot;cross_voice_service&quot;,&quot;data_service&quot;,&quot;sms_service&quot;,&quot;roaming_service&quot;,&quot;additional_minutes_service&quot;,&quot;additional_sms_service&quot;,&quot;additional_data_service&quot;,&quot;additional_roaming_service&quot;,&quot;fee&quot;,&quot;delete&quot;],&quot;page&quot;:5,&quot;pagination&quot;:true}">
+                         data-list="{&quot;valueNames&quot;:[&quot;id&quot;,&quot;commercial_name&quot;,&quot;voice_service&quot;,&quot;cross_voice_service&quot;,&quot;data_service&quot;,&quot;sms_service&quot;,&quot;roaming_service&quot;,&quot;additional_minutes_service&quot;,&quot;additional_sms_service&quot;,&quot;additional_data_service&quot;,&quot;additional_roaming_service&quot;,&quot;fee&quot;],&quot;page&quot;:5,&quot;pagination&quot;:true}">
                         <div class="table-responsive scrollbar">
                             <table class="table table-bordered table-striped fs--1 mb-0">
                                 <thead class="bg-200 text-900">
@@ -48,7 +41,6 @@
                                     <th class="sort" data-sort="additional_roaming_service">additional roaming service
                                     </th>
                                     <th class="sort" data-sort="fee">fee</th>
-                                    <th class="sort">delete</th>
                                 </tr>
                                 </thead>
                                 <tbody class="list">
@@ -80,7 +72,6 @@
                                     </td>
                                     <td class="fee"><%=ratePlane.getFee()%>
                                     </td>
-                                    <td class="delete"><a href="viewrp.jsp?id=<%=ratePlane.getId()%>">delete</a></td>
                                 </tr>
                                 <%
                                     }
@@ -119,17 +110,6 @@
                                 </svg><!-- <span class="fas fa-chevron-right"></span> Font Awesome fontawesome.com -->
                             </button>
                         </div>
-                        <%
-                            if (res == 1) {
-                        %>
-                        <h4>rate plane deleted successfully</h4>
-                        <%
-                        } else if (res == -1) {
-                        %>
-                        <h4>error while deleting rate plane</h4>
-                        <%
-                            }
-                        %>
                     </div>
 
                 </form>
