@@ -306,4 +306,83 @@ public class SiteDAO {
             return -1;
         }
     }
+
+    public List<Contract> getContracts(String uid) throws SQLException {
+        stmt = this.con.prepareStatement("select * from bscs.contract where userid = ?");
+        stmt.setInt(1, Integer.parseInt(uid));
+        ResultSet rs = stmt.executeQuery();
+        List<Contract> contract = new ArrayList<>();
+
+        while (rs.next()) {
+            contract.add(new Contract(
+                    rs.getInt("contract_id"),
+                    rs.getInt("msisdn"),
+                    rs.getInt("rateplane_id"),
+                    rs.getInt("userid"),
+                    rs.getInt("additional_sp"),
+                    rs.getInt("current_voice"),
+                    rs.getInt("current_cross_voice"),
+                    rs.getInt("current_data"),
+                    rs.getInt("current_sms"),
+                    rs.getInt("current_roaming"),
+                    rs.getInt("discount"),
+                    rs.getInt("current_additional_sp")
+            ));
+        }
+        if (contract.size()!=0){
+            return contract;
+        }else {
+            return null;
+        }
+    }
+
+    public void deleteUserHelper(String id) throws SQLException {
+        //get user contracts
+        //delete user consumption
+        //delete user contracts
+        //delete user
+        List<Contract> contracts=getContracts(id);
+        for (Contract contract:contracts) {
+            deleteConsumption(contract.getMsisdn());
+        }
+        for (Contract contract:contracts) {
+            deleteContract(contract.getContract_id());
+        }
+        deleteUser(id);
+    }
+
+    private void deleteUser(String id) throws SQLException {
+        stmt = this.con.prepareStatement("delete from rtx.users where national_id = ?");
+        stmt.setInt(1, Integer.parseInt(id));
+        stmt.executeUpdate();
+    }
+
+    private void deleteContract(int contract_id) throws SQLException {
+        stmt = this.con.prepareStatement("delete from rtx.contract where contract_id = ?");
+        stmt.setInt(1, contract_id);
+        stmt.executeUpdate();
+    }
+
+    private void deleteConsumption(int msisdn) throws SQLException {
+        stmt = this.con.prepareStatement("delete from rtx.consumption where source_msisdn = ?");
+        stmt.setInt(1, msisdn);
+        stmt.executeUpdate();
+    }
+
+    public List<Users> getUser(String search) throws SQLException {
+        stmt = this.con.prepareStatement("select * from bscs.users where national_id = ?");
+        stmt.setInt(1, Integer.parseInt(search));
+        ResultSet rs = stmt.executeQuery();
+        List<Users> users = new ArrayList<>();
+
+        while (rs.next()) {
+            users.add(new Users(
+                    rs.getInt("national_id"),
+                    rs.getString("u_name"),
+                    rs.getInt("age"),
+                    rs.getString("address")
+            ));
+        }
+        return users;
+    }
 }

@@ -4,12 +4,22 @@
 <%@ page import="com.example.customer_care_app.modules.ServicePackage" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.customer_care_app.modules.RatePlane" %>
+<%@ page import="com.example.customer_care_app.modules.Users" %>
 
 
 <%@include file="/header.html" %>
 <%
     try {
-        List<ServicePackage> servicePackages = SiteDAO.instanceData.getServicePackage();
+        List<Users> users;
+        String search = request.getParameter("search");
+        int res = 0;
+        if (search != null) {
+            System.out.println("id is: " + search);
+            users = SiteDAO.instanceData.getUser(search);
+            System.out.println("respond is: " + res);
+        }else {
+            users = SiteDAO.instanceData.getUsers();
+        }
 %>
 <div class="content pt-5">
     <div class="pb-5">
@@ -18,29 +28,36 @@
                 <div class="mb-8">
                     <h2 class="mb-2">View Service Packages</h2>
                 </div>
-                <form action="viewsp.jsp" class="row g-3" novalidate="">
-
+                <form action="viewcustomer.jsp" class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                    <input
+                        class="form-control form-control-sm search-input min-h-auto" name="search"
+                        placeholder="Search By National Id...">
+                </form>
+                <form action="viewcustomer.jsp" class="row g-3" novalidate="">
                     <div id="tableExample2"
-                         data-list="{&quot;valueNames&quot;:[&quot;id&quot;,&quot;service_type&quot;,&quot;units&quot;],&quot;page&quot;:5,&quot;pagination&quot;:true}">
+                         data-list="{&quot;valueNames&quot;:[&quot;national_id&quot;,&quot;u_name&quot;,&quot;age&quot;,&quot;address&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
                         <div class="table-responsive scrollbar">
                             <table class="table table-bordered table-striped fs--1 mb-0">
                                 <thead class="bg-200 text-900">
                                 <tr>
-                                    <th class="sort desc" data-sort="id">id</th>
-                                    <th class="sort" data-sort="service_type">service_type</th>
-                                    <th class="sort" data-sort="units">units</th>
+                                    <th class="sort desc" data-sort="national_id">national_id</th>
+                                    <th class="sort" data-sort="u_name">u_name</th>
+                                    <th class="sort" data-sort="age">age</th>
+                                    <th class="sort" data-sort="address">address</th>
                                 </tr>
                                 </thead>
                                 <tbody class="list">
                                 <%
-                                    for (ServicePackage servicePackage : servicePackages) {
+                                    for (Users user : users) {
                                 %>
                                 <tr>
-                                    <td class="id"><%=servicePackage.getId()%>
+                                    <td class="national_id"><%=user.getNational_id()%>
                                     </td>
-                                    <td class="commercial_name"><%=servicePackage.getService_type()%>
+                                    <td class="u_name"><%=user.getU_name()%>
                                     </td>
-                                    <td class="voice_service"><%=servicePackage.getUnits()%>
+                                    <td class="age"><%=user.getAge()%>
+                                    </td>
+                                    <td class="address"><%=user.getAddress()%>
                                     </td>
                                 </tr>
                                 <%
@@ -80,6 +97,17 @@
                                 </svg><!-- <span class="fas fa-chevron-right"></span> Font Awesome fontawesome.com -->
                             </button>
                         </div>
+                        <%
+                            if (res == 1) {
+                        %>
+                        <h4>service package deleted successfully</h4>
+                        <%
+                        } else if (res == -1) {
+                        %>
+                        <h4>error while deleting service package</h4>
+                        <%
+                            }
+                        %>
                     </div>
 
                 </form>
