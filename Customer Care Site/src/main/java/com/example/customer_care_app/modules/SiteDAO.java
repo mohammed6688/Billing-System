@@ -293,4 +293,17 @@ public class SiteDAO {
             return -1;
         }
     }
+
+    public int deleteServicePackage(String id) throws SQLException {
+        stmt = this.con.prepareStatement("delete from bscs.service_package where id = ?");
+        stmt.setInt(1, Integer.parseInt(id));
+        stmt.executeUpdate();
+        ResultSet rs = stmt.getGeneratedKeys();
+
+        if (rs!=null) {
+            return 1;
+        }else{
+            return -1;
+        }
+    }
 }

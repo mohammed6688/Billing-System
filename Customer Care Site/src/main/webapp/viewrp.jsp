@@ -34,18 +34,18 @@
                                 <thead class="bg-200 text-900">
                                 <tr>
                                     <th class="sort desc" data-sort="id">id</th>
-                                    <th class="sort" data-sort="commercial_name">commercial_name</th>
-                                    <th class="sort" data-sort="voice_service">voice_service</th>
-                                    <th class="sort desc" data-sort="cross_voice_service">cross_voice_service</th>
-                                    <th class="sort" data-sort="data_service">data_service</th>
-                                    <th class="sort" data-sort="sms_service">sms_service</th>
-                                    <th class="sort desc" data-sort="roaming_service">roaming_service</th>
-                                    <th class="sort" data-sort="additional_minutes_service">additional_minutes_service
+                                    <th class="sort" data-sort="commercial_name">commercial name</th>
+                                    <th class="sort" data-sort="voice_service">voice service</th>
+                                    <th class="sort desc" data-sort="cross_voice_service">cross voice service</th>
+                                    <th class="sort" data-sort="data_service">data service</th>
+                                    <th class="sort" data-sort="sms_service">sms service</th>
+                                    <th class="sort desc" data-sort="roaming_service">roaming service</th>
+                                    <th class="sort" data-sort="additional_minutes_service">additional minutes service
                                     </th>
-                                    <th class="sort" data-sort="additional_sms_service">additional_sms_service</th>
-                                    <th class="sort desc" data-sort="additional_data_service">additional_data_service
+                                    <th class="sort" data-sort="additional_sms_service">additional sms service</th>
+                                    <th class="sort desc" data-sort="additional_data_service">additional data service
                                     </th>
-                                    <th class="sort" data-sort="additional_roaming_service">additional_roaming_service
+                                    <th class="sort" data-sort="additional_roaming_service">additional roaming service
                                     </th>
                                     <th class="sort" data-sort="fee">fee</th>
                                     <th class="sort">delete</th>
