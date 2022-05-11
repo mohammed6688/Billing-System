@@ -240,8 +240,8 @@ public class SiteDAO {
     }
     public int addRatePlan (RatePlane ratePlane) throws SQLException {
         stmt = this.con.prepareStatement("insert into bscs.rateplanes(commercial_name,voice_service,cross_voice_service," +
-                                            "data_service,sms_service,roaming_service,additional_minutes," +
-                                            "additional_sms,additional_data,additional_roaming,fee)" +
+                                            "data_service,sms_service,roaming_service,additional_minutes_service," +
+                                            "additional_sms_service,additional_data_service,additional_roaming_service,fee)" +
                                             " values(?,?,?,?,?,?,?,?,?,?,?)");
         stmt.setString(1, ratePlane.getCommercial_name());
         stmt.setInt(2, ratePlane.getVoice_service());
@@ -258,7 +258,7 @@ public class SiteDAO {
         ResultSet rs = stmt.getGeneratedKeys();
         System.out.println(rs);
         if (rs != null) {
-            System.out.println("service package added");
+            System.out.println("rate plane added");
             return 1;
         } else {
             return -1;
@@ -279,5 +279,31 @@ public class SiteDAO {
             ));
         }
         return servicePackage;
+    }
+
+    public int deleteRatePlane(String id) throws SQLException {
+        stmt = this.con.prepareStatement("delete from bscs.rateplanes where id = ?");
+        stmt.setInt(1, Integer.parseInt(id));
+        stmt.executeUpdate();
+        ResultSet rs = stmt.getGeneratedKeys();
+
+        if (rs!=null) {
+            return 1;
+        }else{
+            return -1;
+        }
+    }
+
+    public int deleteServicePackage(String id) throws SQLException {
+        stmt = this.con.prepareStatement("delete from bscs.service_package where id = ?");
+        stmt.setInt(1, Integer.parseInt(id));
+        stmt.executeUpdate();
+        ResultSet rs = stmt.getGeneratedKeys();
+
+        if (rs!=null) {
+            return 1;
+        }else{
+            return -1;
+        }
     }
 }

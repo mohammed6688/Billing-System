@@ -5,12 +5,12 @@
 <%@include file="/header.html" %>
 <%
     String mode = request.getParameter("mode");
-    int val=0;
+    int val = 0;
     if (mode != null && mode.equals("addsp")) {
         String type = request.getParameter("rb");
         String units = request.getParameter("units");
         try {
-            val =SiteDAO.instanceData.addServicePackage(type, units);
+            val = SiteDAO.instanceData.addServicePackage(type, units);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -40,11 +40,11 @@
                         <label class="form-check-label" for="cross_voice">Cross Voice</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" id="data" type="radio" name="rb" value="data" >
+                        <input class="form-check-input" id="data" type="radio" name="rb" value="data">
                         <label class="form-check-label" for="data">Data</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" id="sms" type="radio" name="rb" value="sms" >
+                        <input class="form-check-input" id="sms" type="radio" name="rb" value="sms">
                         <label class="form-check-label" for="sms">Sms</label>
                     </div>
                     <div class="form-check">
@@ -57,11 +57,11 @@
                     </div>
 
                     <%
-                        if (val==1){
+                        if (val == 1) {
                     %>
                     <h4>service package Added successfully</h4>
                     <%
-                        }else if (val==-1){
+                    } else if (val == -1) {
                     %>
                     <h4>error while adding service package</h4>
                     <%
