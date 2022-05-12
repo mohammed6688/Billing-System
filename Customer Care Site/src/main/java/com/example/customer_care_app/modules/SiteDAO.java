@@ -388,8 +388,8 @@ public class SiteDAO {
         }
         return users;
     }
-    //needed functions to have the invoice website
-    public static List<Bill_Info> generateBillsForUser(int NID) throws SQLException, JRException, FileNotFoundException {
+    //------------needed functions to have the invoice website
+    public List<Bill_Info> generateBillsForUser(int NID) throws SQLException, JRException, FileNotFoundException {
 
         List<Bill_Info> numbersBills = new ArrayList<>();
         List<String> userNumbers = SiteDAO.instanceData.getUserMSISDNs(NID);
