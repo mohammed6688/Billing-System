@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 public class InvoiceGenerator {
-    static final String fileName = "src/main/resources/JasperDesign.jrxml";
-    static final String outFile = "src/main/resources/Bills/";
+    static final String fileName = "Cdr_Processor/src/main/resources/JasperDesign.jrxml";
+    static final String outFile = "Cdr_Processor/src/main/resources/Bills/";
 
     public static void generate(List<Bill_Info> invoice, Users user, String path) throws FileNotFoundException, JRException {
         Map<String, Object> parameter  = new HashMap<String, Object>();

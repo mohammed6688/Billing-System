@@ -40,8 +40,8 @@
                             <table class="table table-bordered table-striped fs--1 mb-0">
                                 <thead class="bg-200 text-900">
                                 <tr>
-                                    <th class="sort desc" data-sort="national_id">national_id</th>
-                                    <th class="sort" data-sort="u_name">u_name</th>
+                                    <th class="sort desc" data-sort="national_id">national id</th>
+                                    <th class="sort" data-sort="u_name">user name</th>
                                     <th class="sort" data-sort="age">age</th>
                                     <th class="sort" data-sort="address">address</th>
                                 </tr>
