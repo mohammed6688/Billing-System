@@ -52,7 +52,7 @@ public class CsvHandler {
 
         Date date = new Date();
         Timestamp ts = new Timestamp(date.getTime());
-        CDR cdr = new CDR(1, "01147964655", "01147964655",String.valueOf(ts), 50, 0, 1, 1);
+        CDR cdr = new CDR(10, "013110677878", "01347964655", String.valueOf(ts), 80, 0, 1, 3);
         CsvHandler cv = new CsvHandler();
         cv.writeDataLineByLine(cdr);
     }

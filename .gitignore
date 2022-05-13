@@ -30,3 +30,5 @@ target/*
 /target
 */target
 */target/*
+
+billingDBInfo.txt

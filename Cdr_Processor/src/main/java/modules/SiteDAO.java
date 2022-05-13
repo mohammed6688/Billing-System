@@ -303,8 +303,8 @@ public class SiteDAO {
     public static void connectToDB() {
         String DB_NAME = "Billing";
         String USER = "postgres";
-        String PASS = "1502654";
-        //String PASS = "0000";    //omar pass
+        //String PASS = "1502654";
+        String PASS = "0000";    //omar pass
 //        String PASS = "1502654";    //ayman pass
 //        String PASS = "1502654";    //abdo pass
         try {
