@@ -42,6 +42,7 @@ public class CDRParser {
             } else {
                 System.out.println("File is Empty");
             }
+            reader.close();
 
         }
         catch (FileNotFoundException ex){
