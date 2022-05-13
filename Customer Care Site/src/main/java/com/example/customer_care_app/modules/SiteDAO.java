@@ -1,5 +1,7 @@
 package com.example.customer_care_app.modules;
 
+import modules.Bill_Info;
+import modules.ContractCons;
 import net.sf.jasperreports.engine.JRException;
 
 import java.io.FileNotFoundException;

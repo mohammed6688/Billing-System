@@ -4,7 +4,7 @@
 <%@ page import="com.example.customer_care_app.modules.ServicePackage" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.customer_care_app.modules.RatePlane" %>
-<%@ page import="com.example.customer_care_app.modules.Bill_Info" %>
+<%@ page import="modules.Bill_Info" %>
 
 
 <%@include file="/header.html" %>
