@@ -16,7 +16,7 @@ class CDRProcessing implements Runnable{
                         CDR cdrData = CDRParser.parseCDR(filename);
                         Rating.FIH(cdrData);
                         CDRParser.moveCDR(filename);
-                        Thread.sleep(10000);
+                        Thread.sleep(5000);
                     }
                 } catch (SQLException | IOException | InterruptedException ex){
                     System.out.println("There is an Exception !!!");
