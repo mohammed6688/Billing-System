@@ -4,14 +4,14 @@
 # Telecom Operator Billing System
 
 ## Description
-The project simulates the real billing system used by the telecom operators in order to rating the postpaid users counsumption and provide a detailed invoice for each user with all his owned numbers and the usage for each one.
+The project simulates the real billing system used by the telecom operators in order to rate the postpaid users counsumption and provide a detailed invoice for each user with all his owned numbers and the usage for each one.
 
 ## Features
 
 - ### Rating Module
-    Process the passed CDR (Call Data Record) from Medation system and rating his consumption based on contract data.
+    Process the passed CDR (Call Data Record) from Medation system and rate his consumption based on contract data.
 - ### Billing Module
-    Calculate users overall usage and fees and generate their invoices and provide it in PDF file format. 
+    Calculate users overall usage and fees and generate their invoices and export it in PDF file format. 
 - ### Website
     Provide capailites for:
     #### Admin
@@ -24,10 +24,14 @@ The project simulates the real billing system used by the telecom operators in o
     #### User
     - Check his Invoice
     - View PostPaid RatePalns
+    
+![Screenshot 2022-05-14 110712](https://user-images.githubusercontent.com/35745424/168419177-06b55c66-8e37-4ab7-98e0-e4a999b462be.png)
+![Screenshot 2022-05-14 110738](https://user-images.githubusercontent.com/35745424/168419178-85bf6b15-9045-4352-85f3-4ef67a88cd4e.png)
 
 ## Technoloiges Stack
 
 - Java EE (Servlet/JSP)
+- Java SE
 - HTML5
 - CSS3 
 - PostgresDB
