@@ -52,7 +52,8 @@ public class CsvHandler {
 
         Date date = new Date();
         Timestamp ts = new Timestamp(date.getTime());
-        CDR cdr = new CDR(10, "01207391838", "01126498473", String.valueOf(ts), 50, 0, 1, 4);
+        int voice=1,cross=2,data=3,sms=4,roaming=5;
+        CDR cdr = new CDR(10, "01126498473", "01126498473", String.valueOf(ts), 1000, 0, voice, 6);
         CsvHandler cv = new CsvHandler();
         cv.writeDataLineByLine(cdr);
     }
