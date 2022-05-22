@@ -4,7 +4,7 @@
 # Telecom Operator Billing System
 
 ## Description
-The project simulates the real billing system used by the telecom operators in order to rate the postpaid users counsumption and provide a detailed invoice for each user with all his owned numbers and the usage for each one.
+The project simulates the real billing system used by the telecom operators in order to rate the postpaid users consumption and provide a detailed invoice for each user with all his owned numbers and the usage for each one.
 
 ## Features
 
